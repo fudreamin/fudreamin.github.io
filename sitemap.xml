@@ -39,7 +39,7 @@
 
   <url>
     <loc>http://yoursite.com/</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-08-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -47,14 +47,14 @@
   
   <url>
     <loc>http://yoursite.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-08-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://yoursite.com/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-08-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -63,7 +63,7 @@
   
   <url>
     <loc>http://yoursite.com/categories/Java/</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-08-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
