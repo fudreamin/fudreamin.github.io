@@ -2,6 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/about/index.html</loc>
+    
+    <lastmod>2020-09-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/08/27/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A2%B3%E7%90%86/</loc>
+    
+    <lastmod>2020-09-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/09/01/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
+    
+    <lastmod>2020-09-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/09/01/Spring%20MVC%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2020-09-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/09/01/Spring%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2020-09-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/09/01/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
+    
+    <lastmod>2020-09-01</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/09/01/Shiro/</loc>
     
     <lastmod>2020-09-01</lastmod>
@@ -37,20 +79,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2020/09/01/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
-    
-    <lastmod>2020-09-01</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/about/index.html</loc>
-    
-    <lastmod>2020-09-01</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/categories/index.html</loc>
     
     <lastmod>2020-09-01</lastmod>
@@ -61,13 +89,6 @@
     <loc>http://yoursite.com/2020/09/01/Code486/</loc>
     
     <lastmod>2020-09-01</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/08/27/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A2%B3%E7%90%86/</loc>
-    
-    <lastmod>2020-08-27</lastmod>
     
   </url>
   
@@ -144,14 +165,28 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    <loc>http://yoursite.com/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/</loc>
     <lastmod>2020-09-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/</loc>
+    <loc>http://yoursite.com/tags/%E5%A4%9A%E6%80%81/</loc>
+    <lastmod>2020-09-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/%E5%8F%8D%E5%B0%84/</loc>
+    <lastmod>2020-09-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/Spring/</loc>
     <lastmod>2020-09-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -216,7 +251,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/categories/Java/</loc>
+    <loc>http://yoursite.com/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2020-09-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/categories/Java%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2020-09-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -224,13 +266,6 @@
   
   <url>
     <loc>http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
-    <lastmod>2020-09-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2020-09-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
