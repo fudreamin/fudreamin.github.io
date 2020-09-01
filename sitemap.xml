@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/09/01/Code486/</loc>
+    
+    <lastmod>2020-09-01</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/08/27/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A2%B3%E7%90%86/</loc>
     
     <lastmod>2020-08-27</lastmod>
@@ -39,22 +46,29 @@
 
   <url>
     <loc>http://yoursite.com/</loc>
-    <lastmod>2020-08-31</lastmod>
+    <lastmod>2020-09-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
+    <loc>http://yoursite.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</loc>
+    <lastmod>2020-09-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
-    <lastmod>2020-08-31</lastmod>
+    <lastmod>2020-09-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://yoursite.com/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/</loc>
-    <lastmod>2020-08-31</lastmod>
+    <lastmod>2020-09-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -62,8 +76,15 @@
 
   
   <url>
+    <loc>http://yoursite.com/categories/leetcode%E9%A2%98%E8%A7%A3/</loc>
+    <lastmod>2020-09-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/categories/Java/</loc>
-    <lastmod>2020-08-31</lastmod>
+    <lastmod>2020-09-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
