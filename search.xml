@@ -165,6 +165,46 @@
       </tags>
   </entry>
   <entry>
+    <title>PageHelper分页插件</title>
+    <url>/2020/09/01/PageHelper%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="PageHelper分页插件"><a href="#PageHelper分页插件" class="headerlink" title="PageHelper分页插件"></a>PageHelper分页插件</h1><h2 id="1、引入"><a href="#1、引入" class="headerlink" title="1、引入"></a>1、引入</h2><p><strong>pom.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 分页插件 PageHelper --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>使用过高版本的PageHelper可能因为springboot依赖版本不够导致无法分页。</li>
+<li>PageHelper.startPage(pageNum,pageSize);只对语句下第一个查询语句生效。</li>
+</ul>
+<p><strong>application.yml</strong></p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pagehelper:</span></span><br><span class="line">  <span class="attr">helper-dialect:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">reasonable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">support-methods-arguments:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>helperDialect</code>：分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。 你可以配置<code>helperDialect</code>属性来指定分页插件使用哪种方言。配置时，可以使用下面的缩写值：<br><code>oracle</code>,<code>mysql</code>,<code>mariadb</code>,<code>sqlite</code>,<code>hsqldb</code>,<code>postgresql</code>,<code>db2</code>,<code>sqlserver</code>,<code>informix</code>,<code>h2</code>,<code>sqlserver2012</code>,<code>derby</code><br><strong>特别注意：</strong>使用 SqlServer2012 数据库时，需要手动指定为 <code>sqlserver2012</code>，否则会使用 SqlServer2005 的方式进行分页。<br>你也可以实现 <code>AbstractHelperDialect</code>，然后配置该属性为实现类的全限定名称即可使用自定义的实现方法。</li>
+<li><code>offsetAsPageNum</code>：默认值为 <code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为 <code>true</code> 时，会将 <code>RowBounds</code> 中的 <code>offset</code> 参数当成 <code>pageNum</code> 使用，可以用页码和页面大小两个参数进行分页。</li>
+<li><code>rowBoundsWithCount</code>：默认值为<code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为<code>true</code>时，使用 <code>RowBounds</code> 分页会进行 count 查询。</li>
+<li><code>pageSizeZero</code>：默认值为 <code>false</code>，当该参数设置为 <code>true</code> 时，如果 <code>pageSize=0</code> 或者 <code>RowBounds.limit = 0</code> 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 <code>Page</code> 类型）。</li>
+<li><code>reasonable</code>：分页合理化参数，默认值为<code>false</code>。当该参数设置为 <code>true</code> 时，<code>pageNum&lt;=0</code> 时会查询第一页， <code>pageNum&gt;pages</code>（超过总数时），会查询最后一页。默认<code>false</code> 时，直接根据参数进行查询。</li>
+<li><code>params</code>：为了支持<code>startPage(Object params)</code>方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值， 可以配置 <code>pageNum,pageSize,count,pageSizeZero,reasonable</code>，不配置映射的用默认值， 默认值为<code>pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero</code>。</li>
+<li><code>supportMethodsArguments</code>：支持通过 Mapper 接口参数来传递分页参数，默认值<code>false</code>，分页插件会从查询方法的参数值中，自动根据上面 <code>params</code> 配置的字段中取值，查找到合适的值时就会自动分页。 使用方法可以参考测试代码中的 <code>com.github.pagehelper.test.basic</code> 包下的 <code>ArgumentsMapTest</code> 和 <code>ArgumentsObjTest</code>。</li>
+<li><code>autoRuntimeDialect</code>：默认值为 <code>false</code>。设置为 <code>true</code> 时，允许在运行时根据多数据源自动识别对应方言的分页 （不支持自动选择<code>sqlserver2012</code>，只能使用<code>sqlserver</code>），用法和注意事项参考下面的<strong>场景五</strong>。</li>
+<li><code>closeConn</code>：默认值为 <code>true</code>。当使用运行时动态数据源或没有设置 <code>helperDialect</code> 属性自动获取数据库类型时，会自动获取一个数据库连接， 通过该属性来设置是否关闭获取的这个连接，默认<code>true</code>关闭，设置为 <code>false</code> 后，不会关闭获取的连接，这个参数的设置要根据自己选择的数据源来决定。</li>
+</ol>
+<p><strong>提示</strong>：当 <code>offsetAsPageNum=false</code> 的时候，由于 <code>PageNum</code> 问题，<code>RowBounds</code>查询的时候 <code>reasonable</code> 会强制为 <code>false</code>。使用 <code>PageHelper.startPage</code> 方法不受影响。</p>
+<h2 id="2、使用"><a href="#2、使用" class="headerlink" title="2、使用"></a>2、使用</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/findPage/&#123;pageNum&#125;/&#123;pageSize&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> PageInfo&lt;Book&gt; <span class="title">findPage</span><span class="params">(<span class="meta">@PathVariable</span> (<span class="string">&quot;pageNum&quot;</span>)</span> <span class="keyword">int</span> pageNum,@<span class="title">PathVariable</span><span class="params">(<span class="string">&quot;pageSize&quot;</span>)</span> <span class="keyword">int</span> pageSize)</span>&#123;</span><br><span class="line">    PageHelper.startPage(pageNum,pageSize);</span><br><span class="line">    List&lt;Book&gt; list=bookRepository.findAll();</span><br><span class="line">    PageInfo&lt;Book&gt; pageInfo=<span class="keyword">new</span> PageInfo&lt;Book&gt;(list);</span><br><span class="line">    <span class="keyword">return</span> pageInfo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>pageInfo返回数据：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span>: <span class="number">23</span>,</span><br><span class="line">    <span class="attr">&quot;list&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;a&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;b&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;f&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;g&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;java&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;张三&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;python&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;hxd&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">5</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;dsfsa&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;safsa&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">6</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;dd&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;dfs&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">7</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;7&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;7&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">8</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;8&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;8&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">9</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;对算法&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;d的萨芬&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">10</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;算法&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;汉化&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;pageNum&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;pageSize&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;size&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;startRow&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;endRow&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;pages&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;prePage&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;nextPage&quot;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">&quot;isFirstPage&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;isLastPage&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;hasPreviousPage&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;hasNextPage&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;navigatePages&quot;</span>: <span class="number">8</span>,</span><br><span class="line">    <span class="attr">&quot;navigatepageNums&quot;</span>: [</span><br><span class="line">        <span class="number">1</span>,</span><br><span class="line">        <span class="number">2</span>,</span><br><span class="line">        <span class="number">3</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;navigateFirstPage&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;navigateLastPage&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;lastPage&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;firstPage&quot;</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
+      <tags>
+        <tag>分页</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Shiro简单使用</title>
     <url>/2020/09/01/Shiro/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Shiro简单使用"><a href="#Shiro简单使用" class="headerlink" title="Shiro简单使用"></a>Shiro简单使用</h1><p>什么是 Shiro</p>
@@ -243,64 +283,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PageHelper分页插件</title>
-    <url>/2020/09/01/PageHelper%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="PageHelper分页插件"><a href="#PageHelper分页插件" class="headerlink" title="PageHelper分页插件"></a>PageHelper分页插件</h1><h2 id="1、引入"><a href="#1、引入" class="headerlink" title="1、引入"></a>1、引入</h2><p><strong>pom.xml</strong></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 分页插件 PageHelper --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<ul>
-<li>使用过高版本的PageHelper可能因为springboot依赖版本不够导致无法分页。</li>
-<li>PageHelper.startPage(pageNum,pageSize);只对语句下第一个查询语句生效。</li>
-</ul>
-<p><strong>application.yml</strong></p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pagehelper:</span></span><br><span class="line">  <span class="attr">helper-dialect:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">reasonable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">support-methods-arguments:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>参数：</strong></p>
-<ol>
-<li><code>helperDialect</code>：分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。 你可以配置<code>helperDialect</code>属性来指定分页插件使用哪种方言。配置时，可以使用下面的缩写值：<br><code>oracle</code>,<code>mysql</code>,<code>mariadb</code>,<code>sqlite</code>,<code>hsqldb</code>,<code>postgresql</code>,<code>db2</code>,<code>sqlserver</code>,<code>informix</code>,<code>h2</code>,<code>sqlserver2012</code>,<code>derby</code><br><strong>特别注意：</strong>使用 SqlServer2012 数据库时，需要手动指定为 <code>sqlserver2012</code>，否则会使用 SqlServer2005 的方式进行分页。<br>你也可以实现 <code>AbstractHelperDialect</code>，然后配置该属性为实现类的全限定名称即可使用自定义的实现方法。</li>
-<li><code>offsetAsPageNum</code>：默认值为 <code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为 <code>true</code> 时，会将 <code>RowBounds</code> 中的 <code>offset</code> 参数当成 <code>pageNum</code> 使用，可以用页码和页面大小两个参数进行分页。</li>
-<li><code>rowBoundsWithCount</code>：默认值为<code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为<code>true</code>时，使用 <code>RowBounds</code> 分页会进行 count 查询。</li>
-<li><code>pageSizeZero</code>：默认值为 <code>false</code>，当该参数设置为 <code>true</code> 时，如果 <code>pageSize=0</code> 或者 <code>RowBounds.limit = 0</code> 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 <code>Page</code> 类型）。</li>
-<li><code>reasonable</code>：分页合理化参数，默认值为<code>false</code>。当该参数设置为 <code>true</code> 时，<code>pageNum&lt;=0</code> 时会查询第一页， <code>pageNum&gt;pages</code>（超过总数时），会查询最后一页。默认<code>false</code> 时，直接根据参数进行查询。</li>
-<li><code>params</code>：为了支持<code>startPage(Object params)</code>方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值， 可以配置 <code>pageNum,pageSize,count,pageSizeZero,reasonable</code>，不配置映射的用默认值， 默认值为<code>pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero</code>。</li>
-<li><code>supportMethodsArguments</code>：支持通过 Mapper 接口参数来传递分页参数，默认值<code>false</code>，分页插件会从查询方法的参数值中，自动根据上面 <code>params</code> 配置的字段中取值，查找到合适的值时就会自动分页。 使用方法可以参考测试代码中的 <code>com.github.pagehelper.test.basic</code> 包下的 <code>ArgumentsMapTest</code> 和 <code>ArgumentsObjTest</code>。</li>
-<li><code>autoRuntimeDialect</code>：默认值为 <code>false</code>。设置为 <code>true</code> 时，允许在运行时根据多数据源自动识别对应方言的分页 （不支持自动选择<code>sqlserver2012</code>，只能使用<code>sqlserver</code>），用法和注意事项参考下面的<strong>场景五</strong>。</li>
-<li><code>closeConn</code>：默认值为 <code>true</code>。当使用运行时动态数据源或没有设置 <code>helperDialect</code> 属性自动获取数据库类型时，会自动获取一个数据库连接， 通过该属性来设置是否关闭获取的这个连接，默认<code>true</code>关闭，设置为 <code>false</code> 后，不会关闭获取的连接，这个参数的设置要根据自己选择的数据源来决定。</li>
-</ol>
-<p><strong>提示</strong>：当 <code>offsetAsPageNum=false</code> 的时候，由于 <code>PageNum</code> 问题，<code>RowBounds</code>查询的时候 <code>reasonable</code> 会强制为 <code>false</code>。使用 <code>PageHelper.startPage</code> 方法不受影响。</p>
-<h2 id="2、使用"><a href="#2、使用" class="headerlink" title="2、使用"></a>2、使用</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/findPage/&#123;pageNum&#125;/&#123;pageSize&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> PageInfo&lt;Book&gt; <span class="title">findPage</span><span class="params">(<span class="meta">@PathVariable</span> (<span class="string">&quot;pageNum&quot;</span>)</span> <span class="keyword">int</span> pageNum,@<span class="title">PathVariable</span><span class="params">(<span class="string">&quot;pageSize&quot;</span>)</span> <span class="keyword">int</span> pageSize)</span>&#123;</span><br><span class="line">    PageHelper.startPage(pageNum,pageSize);</span><br><span class="line">    List&lt;Book&gt; list=bookRepository.findAll();</span><br><span class="line">    PageInfo&lt;Book&gt; pageInfo=<span class="keyword">new</span> PageInfo&lt;Book&gt;(list);</span><br><span class="line">    <span class="keyword">return</span> pageInfo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>pageInfo返回数据：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span>: <span class="number">23</span>,</span><br><span class="line">    <span class="attr">&quot;list&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;a&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;b&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;f&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;g&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;java&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;张三&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;python&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;hxd&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">5</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;dsfsa&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;safsa&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">6</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;dd&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;dfs&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">7</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;7&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;7&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">8</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;8&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;8&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">9</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;对算法&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;d的萨芬&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">10</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;算法&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;汉化&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;pageNum&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;pageSize&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;size&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;startRow&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;endRow&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;pages&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;prePage&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;nextPage&quot;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">&quot;isFirstPage&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;isLastPage&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;hasPreviousPage&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;hasNextPage&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;navigatePages&quot;</span>: <span class="number">8</span>,</span><br><span class="line">    <span class="attr">&quot;navigatepageNums&quot;</span>: [</span><br><span class="line">        <span class="number">1</span>,</span><br><span class="line">        <span class="number">2</span>,</span><br><span class="line">        <span class="number">3</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;navigateFirstPage&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;navigateLastPage&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;lastPage&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;firstPage&quot;</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>插件</category>
-      </categories>
-      <tags>
-        <tag>分页</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/08/26/hello-world/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Typora快捷键</title>
     <url>/2020/09/01/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><ul>
@@ -342,6 +324,102 @@
       </categories>
       <tags>
         <tag>快捷键</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/08/26/hello-world/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>leetcode题解：数组中数字出现的次数</title>
+    <url>/2020/09/02/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E6%95%B0%E5%AD%97%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="数组中数字出现的次数"><a href="#数组中数字出现的次数" class="headerlink" title="数组中数字出现的次数"></a>数组中数字出现的次数</h1><p>（这不是今天的每日一题，实在是今天那道面向用例编程的题实在太恶心，个人感觉不如刷一道剑指Offer。）</p>
+<blockquote>
+<h4 id="剑指-Offer-56-I-数组中数字出现的次数"><a href="#剑指-Offer-56-I-数组中数字出现的次数" class="headerlink" title="剑指 Offer 56 - I. 数组中数字出现的次数"></a><a href="https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/">剑指 Offer 56 - I. 数组中数字出现的次数</a></h4><p>一个整型数组 <code>nums</code> 里除两个数字之外，其他数字都出现了两次。请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。</p>
+</blockquote>
+<p>因为时间和空间复杂度的关系，无论是暴力二重循环、HashMap还是排序都无法满足要求，于是，我们需要引入位运算中的异或的概念。</p>
+<p><strong>异或 ^</strong>:    将二进制数从低位到高位进行比较，如果值该位上的值相同，则为0，否则为1。</p>
+<p>单纯的知道这点似乎对题目的理解仍然没有实质性的帮助，不急，接下来的两个重点能帮助我们理解这个问题。</p>
+<ol>
+<li><strong>异或操作满足交换律和结合律</strong>，这两点其实很简单，但却十分关键；</li>
+<li><strong>两个相同的数异或结果必为0，任何数与0异或结果必为其本身</strong>。</li>
+</ol>
+<p>因为题目明示了只有两个出现一次的数，且其他数只出现过两次。所以说我们将所有数异或得到的结果其实就是这两个只出现了一次的数异或的结果。但是，我们并不能直接用这个结果倒推出这两个数。于是，我们想到分组，如果我们能把这两个数分到两组，并且保证相同的数不会分开就可以通过将各组分别异或得到答案。</p>
+<p>我们以[4,1,4,6]为例。</p>
+<table>
+<thead>
+<tr>
+<th>4</th>
+<th>100</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>001</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100</td>
+</tr>
+<tr>
+<td>6</td>
+<td>110</td>
+</tr>
+</tbody></table>
+<p>我们将四个数异或结果即为：<strong>011</strong>。</p>
+<p>这时我们可以想到，1和6经过异或后值为1的位数表示这两者不同，如果我们根据某一个值为1的位数分组，我们就不仅可以保证二者不会到同一组，并且相同的数不会分开（相同的数在某一位的值肯定是相同的），为了方便，我们可以用异或结果为1的最低位分组：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>第一组（最低位为1）</th>
+<th>第二组（最低位为0）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>1（001）</td>
+<td>4（100）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>4（100）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>6（110）</td>
+</tr>
+<tr>
+<td>分组异或</td>
+<td>1</td>
+<td>6</td>
+</tr>
+</tbody></table>
+<p>这样，我们就能得出出现过一次的两个数分别为1和6。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//代码如下</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] singleNumbers(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;<span class="comment">//获取所有数异或结果</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            res = res ^ nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> mask = <span class="number">1</span>;<span class="comment">//获取值为1的最低位</span></span><br><span class="line">        <span class="keyword">while</span> ((res &amp; mask) == <span class="number">0</span>) &#123;</span><br><span class="line">            mask &lt;&lt;= <span class="number">1</span>;<span class="comment">// &lt;&lt;= 含义：左移一位后赋值</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;<span class="comment">//分组</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((nums[i] &amp; mask) == <span class="number">0</span>)&#123;</span><br><span class="line">                a ^= nums[i];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                b ^= nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;a, b&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>位运算</tag>
       </tags>
   </entry>
   <entry>
@@ -913,6 +991,399 @@
       </categories>
       <tags>
         <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java正则表达式</title>
+    <url>/2020/09/02/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>可参考博客：<a href="https://blog.csdn.net/weixin_43860260/article/details/91417485">https://blog.csdn.net/weixin_43860260/article/details/91417485</a></p>
+<h2 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h2><ul>
+<li><p>正则表达式(Regular Expression)是一种文本模式，包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为”元字符”）。</p>
+</li>
+<li><p>正则表达式使用单个字符串来描述、匹配一系列匹配某个句法规则的字符串。</p>
+</li>
+<li><p>正则表达式(regular expression)描述了一种字符串匹配的模式（pattern），可以用来检查一个串是否含有某种子串、将匹配的子串替换或者从某个串中取出符合某个条件的子串等。</p>
+</li>
+</ul>
+<h2 id="2、语法"><a href="#2、语法" class="headerlink" title="2、语法"></a>2、语法</h2><p>普通字符包括没有显式指定为元字符的所有可打印和不可打印字符。这包括所有大写和小写字母、所有数字、所有标点符号和一些其他符号。</p>
+<p><strong>非打印字符</strong></p>
+<p>非打印字符也可以是正则表达式的组成部分。下表列出了表示非打印字符的转义序列：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\cx</td>
+<td align="left">匹配由x指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
+</tr>
+<tr>
+<td align="left">\f</td>
+<td align="left">匹配一个换页符。等价于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td align="left">\n</td>
+<td align="left">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td align="left">\r</td>
+<td align="left">匹配一个回车符。等价于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td align="left">\s</td>
+<td align="left">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。注意 Unicode 正则表达式会匹配全角空格符。</td>
+</tr>
+<tr>
+<td align="left">\S</td>
+<td align="left">匹配任何非空白字符。等价于<code>[^ \f\n\r\t\v]</code>。</td>
+</tr>
+<tr>
+<td align="left">\t</td>
+<td align="left">匹配一个制表符。等价于 \x09 和 \cI。</td>
+</tr>
+<tr>
+<td align="left">\v</td>
+<td align="left">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
+</tr>
+</tbody></table>
+<p><strong>特殊字符</strong></p>
+<p>所谓特殊字符，就是一些有特殊含义的字符，如 *，简单的说就是表示任何字符串的意思。如果要查找字符串中的 * 符号，则需要对 * 进行转义，即在其前加一个 <code>\</code> 匹配，如：<code>runo\*ob </code>。</p>
+<p>许多元字符要求在试图匹配它们时特别对待。若要匹配这些特殊字符，必须首先使字符”转义”，即，将反斜杠字符<strong>\</strong> 放在它们前面。下表列出了正则表达式中的特殊字符：</p>
+<table>
+<thead>
+<tr>
+<th align="left">特别字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 $。</td>
+</tr>
+<tr>
+<td align="left">( )</td>
+<td align="left">标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 ( 和 )。</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">匹配前面的子表达式零次或多次。要匹配 * 字符，请使用 *。</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 +。</td>
+</tr>
+<tr>
+<td align="left">.</td>
+<td align="left">匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 . 。</td>
+</tr>
+<tr>
+<td align="left">[</td>
+<td align="left">标记一个中括号表达式的开始。要匹配 [，请使用 [。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 ?。</td>
+</tr>
+<tr>
+<td align="left">\</td>
+<td align="left">将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符 ‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “&quot;，而 ‘(‘ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 ^ 字符本身，请使用 ^。</td>
+</tr>
+<tr>
+<td align="left">{</td>
+<td align="left">标记限定符表达式的开始。要匹配 {，请使用 {。</td>
+</tr>
+<tr>
+<td align="left">|</td>
+<td align="left">指明两项之间的一个选择。要匹配 |，请使用 |。</td>
+</tr>
+</tbody></table>
+<p><strong>限定字符</strong></p>
+<p>限定符用来指定正则表达式的一个给定组件必须要出现多少次才能满足匹配。有 *<strong>** 或 **+</strong> 或 <strong>?</strong> 或 <strong>{n}</strong> 或 <strong>{n,}</strong> 或 <strong>{n,m}</strong> 共6种。</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">*</td>
+<td align="left">匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 、 “does” 中的 “does” 、 “doxy” 中的 “do” 。? 等价于 {0,1}。</td>
+</tr>
+<tr>
+<td align="left">{n}</td>
+<td align="left">n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td align="left">{n,}</td>
+<td align="left">n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
+</tr>
+<tr>
+<td align="left">{n,m}</td>
+<td align="left">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+</tbody></table>
+<p><strong>定位符</strong></p>
+<p>定位符使您能够将正则表达式固定到行首或行尾。它们还使您能够创建这样的正则表达式，这些正则表达式出现在一个单词内、在一个单词的开头或者一个单词的结尾。</p>
+<p>定位符用来描述字符串或单词的边界，<strong>^</strong> 和 <strong>$</strong> 分别指字符串的开始与结束，<strong>\b</strong> 描述单词的前或后边界，<strong>\B</strong> 表示非单词边界。</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配。</td>
+</tr>
+<tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与 \n 或 \r 之前的位置匹配。</td>
+</tr>
+<tr>
+<td align="left">\b</td>
+<td align="left">匹配一个单词边界，即字与空格间的位置。</td>
+</tr>
+<tr>
+<td align="left">\B</td>
+<td align="left">非单词边界匹配。</td>
+</tr>
+</tbody></table>
+<p><strong>注意</strong>：不能将限定符与定位符一起使用。由于在紧靠换行或者单词边界的前面或后面不能有一个以上位置，因此不允许诸如 <strong>^*</strong> 之类的表达式。</p>
+<p>若要匹配一行文本开始处的文本，请在正则表达式的开始使用 <strong>^</strong> 字符。不要将 <strong>^</strong> 的这种用法与中括号表达式内的用法混淆。</p>
+<p>若要匹配一行文本的结束处的文本，请在正则表达式的结束处使用 <strong>$</strong> 字符。</p>
+<p><strong>选择</strong></p>
+<p>用圆括号将所有选择项括起来，相邻的选择项之间用|分隔。但用圆括号会有一个副作用，使相关的匹配会被缓存，此时可用?:放在第一个选项前来消除这种副作用。</p>
+<p>其中 <strong>?:</strong> 是非捕获元之一，还有两个非捕获元是 <strong>?=</strong> 和 **?!**，这两个还有更多的含义，前者为正向预查，在任何开始匹配圆括号内的正则表达式模式的位置来匹配搜索字符串，后者为负向预查，在任何开始不匹配该正则表达式模式的位置来匹配搜索字符串。</p>
+<h2 id="3、元字符"><a href="#3、元字符" class="headerlink" title="3、元字符"></a>3、元字符</h2><table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\</td>
+<td align="left">将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，’n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\‘ 匹配 “&quot; 而 “(“ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 ‘\n’ 或 ‘\r’ 之后的位置。</td>
+</tr>
+<tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 ‘\n’ 或 ‘\r’ 之前的位置。</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 。? 等价于 {0,1}。</td>
+</tr>
+<tr>
+<td align="left">{n}</td>
+<td align="left">n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td align="left">{n,}</td>
+<td align="left">n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
+</tr>
+<tr>
+<td align="left">{n,m}</td>
+<td align="left">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">当该字符紧跟在任何一个其他限制符 (*, +, ?, {n}, {n,}, {n,m}) 后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串 “oooo”，’o+?’ 将匹配单个 “o”，而 ‘o+’ 将匹配所有 ‘o’。</td>
+</tr>
+<tr>
+<td align="left">.</td>
+<td align="left">匹配除换行符（\n、\r）之外的任何单个字符。要匹配包括 ‘\n’ 在内的任何字符，请使用像”<strong>(.|\n)</strong>“的模式。</td>
+</tr>
+<tr>
+<td align="left">(pattern)</td>
+<td align="left">匹配 pattern 并获取这一匹配。所获取的匹配可以从产生的 Matches 集合得到，在VBScript 中使用 SubMatches 集合，在JScript 中则使用 $0…$9 属性。要匹配圆括号字符，请使用 ‘(‘ 或 ‘)‘。</td>
+</tr>
+<tr>
+<td align="left">(?:pattern)</td>
+<td align="left">匹配 pattern 但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用 “或” 字符 (|) 来组合一个模式的各个部分是很有用。例如， ‘industr(?:y|ies) 就是一个比 ‘industry|industries’ 更简略的表达式。</td>
+</tr>
+<tr>
+<td align="left">(?=pattern)</td>
+<td align="left">正向肯定预查（look ahead positive assert），在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，”Windows(?=95|98|NT|2000)”能匹配”Windows2000”中的”Windows”，但不能匹配”Windows3.1”中的”Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td align="left">(?!pattern)</td>
+<td align="left">正向否定预查(negative assert)，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如”Windows(?!95|98|NT|2000)”能匹配”Windows3.1”中的”Windows”，但不能匹配”Windows2000”中的”Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td align="left">(?&lt;=pattern)</td>
+<td align="left">反向(look behind)肯定预查，与正向肯定预查类似，只是方向相反。例如，”`(?&lt;=95</td>
+</tr>
+<tr>
+<td align="left">(?&lt;!pattern)</td>
+<td align="left">反向否定预查，与正向否定预查类似，只是方向相反。例如”`(?&lt;!95</td>
+</tr>
+<tr>
+<td align="left">x|y</td>
+<td align="left">匹配 x 或 y。例如，’z|food’ 能匹配 “z” 或 “food”。’(z|f)ood’ 则匹配 “zood” 或 “food”。</td>
+</tr>
+<tr>
+<td align="left">[xyz]</td>
+<td align="left">字符集合。匹配所包含的任意一个字符。例如， ‘[abc]’ 可以匹配 “plain” 中的 ‘a’。</td>
+</tr>
+<tr>
+<td align="left">[^xyz]</td>
+<td align="left">负值字符集合。匹配未包含的任意字符。例如， ‘[^abc]’ 可以匹配 “plain” 中的’p’、’l’、’i’、’n’。</td>
+</tr>
+<tr>
+<td align="left">[a-z]</td>
+<td align="left">字符范围。匹配指定范围内的任意字符。例如，’[a-z]’ 可以匹配 ‘a’ 到 ‘z’ 范围内的任意小写字母字符。</td>
+</tr>
+<tr>
+<td align="left">[^a-z]</td>
+<td align="left">负值字符范围。匹配任何不在指定范围内的任意字符。例如，’[^a-z]’ 可以匹配任何不在 ‘a’ 到 ‘z’ 范围内的任意字符。</td>
+</tr>
+<tr>
+<td align="left">\b</td>
+<td align="left">匹配一个单词边界，也就是指单词和空格间的位置。例如， ‘er\b’ 可以匹配”never” 中的 ‘er’，但不能匹配 “verb” 中的 ‘er’。</td>
+</tr>
+<tr>
+<td align="left">\B</td>
+<td align="left">匹配非单词边界。’er\B’ 能匹配 “verb” 中的 ‘er’，但不能匹配 “never” 中的 ‘er’。</td>
+</tr>
+<tr>
+<td align="left">\cx</td>
+<td align="left">匹配由 x 指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
+</tr>
+<tr>
+<td align="left">\d</td>
+<td align="left">匹配一个数字字符。等价于 [0-9]。</td>
+</tr>
+<tr>
+<td align="left">\D</td>
+<td align="left">匹配一个非数字字符。等价于 [^0-9]。</td>
+</tr>
+<tr>
+<td align="left">\f</td>
+<td align="left">匹配一个换页符。等价于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td align="left">\n</td>
+<td align="left">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td align="left">\r</td>
+<td align="left">匹配一个回车符。等价于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td align="left">\s</td>
+<td align="left">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td align="left">\S</td>
+<td align="left">匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td align="left">\t</td>
+<td align="left">匹配一个制表符。等价于 \x09 和 \cI。</td>
+</tr>
+<tr>
+<td align="left">\v</td>
+<td align="left">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
+</tr>
+<tr>
+<td align="left">\w</td>
+<td align="left">匹配字母、数字、下划线。等价于’[A-Za-z0-9_]’。</td>
+</tr>
+<tr>
+<td align="left">\W</td>
+<td align="left">匹配非字母、数字、下划线。等价于 ‘[^A-Za-z0-9_]’。</td>
+</tr>
+<tr>
+<td align="left">\xn</td>
+<td align="left">匹配 n，其中 n 为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，’\x41’ 匹配 “A”。’\x041’ 则等价于 ‘\x04’ &amp; “1”。正则表达式中可以使用 ASCII 编码。</td>
+</tr>
+<tr>
+<td align="left">\num</td>
+<td align="left">匹配 num，其中 num 是一个正整数。对所获取的匹配的引用。例如，’(.)\1’ 匹配两个连续的相同字符。</td>
+</tr>
+<tr>
+<td align="left">\n</td>
+<td align="left">标识一个八进制转义值或一个向后引用。如果 \n 之前至少 n 个获取的子表达式，则 n 为向后引用。否则，如果 n 为八进制数字 (0-7)，则 n 为一个八进制转义值。</td>
+</tr>
+<tr>
+<td align="left">\nm</td>
+<td align="left">标识一个八进制转义值或一个向后引用。如果 \nm 之前至少有 nm 个获得子表达式，则 nm 为向后引用。如果 \nm 之前至少有 n 个获取，则 n 为一个后跟文字 m 的向后引用。如果前面的条件都不满足，若 n 和 m 均为八进制数字 (0-7)，则 \nm 将匹配八进制转义值 nm。</td>
+</tr>
+<tr>
+<td align="left">\nml</td>
+<td align="left">如果 n 为八进制数字 (0-3)，且 m 和 l 均为八进制数字 (0-7)，则匹配八进制转义值 nml。</td>
+</tr>
+<tr>
+<td align="left">\un</td>
+<td align="left">匹配 n，其中 n 是一个用四个十六进制数字表示的 Unicode 字符。例如， \u00A9 匹配版权符号 (?)。</td>
+</tr>
+</tbody></table>
+<h2 id="4、运算符优先级"><a href="#4、运算符优先级" class="headerlink" title="4、运算符优先级"></a>4、运算符优先级</h2><table>
+<thead>
+<tr>
+<th align="left">运算符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\</td>
+<td align="left">转义符</td>
+</tr>
+<tr>
+<td align="left">(), (?:), (?=), []</td>
+<td align="left">圆括号和方括号</td>
+</tr>
+<tr>
+<td align="left">*, +, ?, {n}, {n,}, {n,m}</td>
+<td align="left">限定符</td>
+</tr>
+<tr>
+<td align="left">^, $, \任何元字符、任何字符</td>
+<td align="left">定位点和序列（即：位置和顺序）</td>
+</tr>
+<tr>
+<td align="left">|</td>
+<td align="left">替换，”或”操作 字符具有高于替换运算符的优先级，使得”m|food”匹配”m”或”food”。若要匹配”mood”或”food”，请使用括号创建子表达式，从而产生”(m|f)ood”。</td>
+</tr>
+</tbody></table>
+<h2 id="5、Java正则表达式"><a href="#5、Java正则表达式" class="headerlink" title="5、Java正则表达式"></a>5、Java正则表达式</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">在其他语言中，\\ 表示：我想要在正则表达式中插入一个普通的（字面上的）反斜杠，请不要给它任何特殊的意义。</span><br><span class="line">在 Java 中，\\ 表示：我要插入一个正则表达式的反斜线，所以其后的字符具有特殊的意义。</span><br><span class="line">所以，在其他的语言中（如Perl），一个反斜杠 \ 就足以具有转义的作用，而在 Java 中正则表达式中则需要有两个反斜杠才能被解析为其他语言中的转义作用。也可以简单的理解在 Java 的正则表达式中，两个 \\ 代表其他语言中的一个 \，这也就是为什么表示一位数字的正则表达式是 \\d，而表示一个普通的反斜杠是 \\\\。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.dreamin.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.regex.Matcher;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line"><span class="comment">//正则表达式</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		String tel = <span class="string">&quot;12807052585&quot;</span>;</span><br><span class="line">		String id = <span class="string">&quot;dreamin12fkjd&quot;</span>;</span><br><span class="line">		System.out.println(judgePatern2(tel));</span><br><span class="line">		mySplit(id);</span><br><span class="line">		String str=<span class="string">&quot;aBc&quot;</span>;</span><br><span class="line">		System.out.println(str.matches(<span class="string">&quot;(?i)abc&quot;</span>));<span class="comment">//不区分大小写</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// String自带方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">judgePatern</span><span class="params">(String target)</span> </span>&#123;</span><br><span class="line">		String pattern = <span class="string">&quot;1\\d&#123;10&#125;&quot;</span>;</span><br><span class="line">		<span class="keyword">return</span> target.matches(pattern);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Pattern类</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">judgePatern2</span><span class="params">(String target)</span> </span>&#123;</span><br><span class="line">		String pattern = <span class="string">&quot;1\\d&#123;10&#125;&quot;</span>;</span><br><span class="line">		<span class="keyword">return</span> Pattern.matches(pattern, target);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 捕获组</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mySplit</span><span class="params">(String target)</span> </span>&#123;</span><br><span class="line">		String pattern = <span class="string">&quot;(\\D*)(\\d&#123;2&#125;)([a-zA-Z]*)&quot;</span>;</span><br><span class="line">		Pattern pt = Pattern.compile(pattern);</span><br><span class="line"></span><br><span class="line">		Matcher mt = pt.matcher(target);</span><br><span class="line">		System.out.println(mt.groupCount());</span><br><span class="line">		<span class="keyword">if</span> (mt.find()) &#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= mt.groupCount(); i++) &#123;</span><br><span class="line">				System.out.println(<span class="string">&quot;group:&quot;</span> + mt.group(i));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Java基础</category>
+      </categories>
+      <tags>
+        <tag>正则表达式</tag>
       </tags>
   </entry>
   <entry>
