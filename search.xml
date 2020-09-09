@@ -316,6 +316,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2020/08/26/hello-world/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Typora快捷键</title>
     <url>/2020/09/01/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><ul>
@@ -360,50 +378,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/08/26/hello-world/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>leetcode题解：二叉树的所有路径</title>
-    <url>/2020/09/04/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的所有路径"><a href="#二叉树的所有路径" class="headerlink" title="二叉树的所有路径"></a>二叉树的所有路径</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/binary-tree-paths/">257. 二叉树的所有路径</a></p>
-<p>给定一个二叉树，返回所有从根节点到叶子节点的路径。</p>
-<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
-</blockquote>
-<p>作为一道easy题，我们可以很容易的想到深度搜先搜索，这里把深搜和广搜两种解法都介绍一下。</p>
-<p><strong>深度优先搜索</strong></p>
-<p>在递归中，我们只需要考虑我们当前需要做什么以及递归的结束条件。在这道题里，因为是从根节点到叶子节点的距离，所以结束条件应该是在某个节点左右子树都为空，而我们遍历到任何一个非结束的节点时，需要做的是将这个节点的值加入当前路径中，并且递归到下一个非空的左右节点。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        dfs(list, stringBuilder, root);</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(List&lt;String&gt; list, StringBuilder stringBuilder, TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">            StringBuilder stringBuilder2 = <span class="keyword">new</span> StringBuilder(stringBuilder);</span><br><span class="line">            list.add(stringBuilder2.append(root.val).toString());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        StringBuilder temp = <span class="keyword">new</span> StringBuilder(stringBuilder);</span><br><span class="line">        temp.append(root.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (root.left != <span class="keyword">null</span>)</span><br><span class="line">            dfs(list, temp, root.left);</span><br><span class="line">        <span class="keyword">if</span> (root.right != <span class="keyword">null</span>)</span><br><span class="line">            dfs(list, temp, root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>广度优先搜索</strong></p>
-<p>相比深搜，广搜我们需要两个队列，一个储存节点，一个储存到该节点之前的路径（因为是二叉树，从根节点到某个指定节点必定只有一条唯一的路径），而之所以存储到该节点之前的路径，是因为最后输出形式中间有箭头，而最后一个数后面是不需要箭头的。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//结果集</span></span><br><span class="line">        Queue&lt;TreeNode&gt; node_queue = <span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//节点队列</span></span><br><span class="line">        Queue&lt;String&gt; path_queue = <span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//路径队列</span></span><br><span class="line">        node_queue.offer(root);</span><br><span class="line">        path_queue.offer(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span> (!node_queue.isEmpty()) &#123;</span><br><span class="line">            TreeNode node = node_queue.poll();</span><br><span class="line">            String path = path_queue.poll();</span><br><span class="line">            <span class="keyword">if</span> (node.left == <span class="keyword">null</span> &amp;&amp; node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">                list.add(path + node.val);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                node_queue.offer(node.left);</span><br><span class="line">                path_queue.offer(path + node.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                node_queue.offer(node.right);</span><br><span class="line">                path_queue.offer(path + node.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>深度优先搜索</tag>
-        <tag>广度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leetcode题解：二叉树的层次遍历 II</title>
     <url>/2020/09/06/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86-II/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的层次遍历-II"><a href="#二叉树的层次遍历-II" class="headerlink" title="二叉树的层次遍历 II"></a>二叉树的层次遍历 II</h1><blockquote>
@@ -428,90 +402,6 @@
       </categories>
       <tags>
         <tag>广度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode题解：前K个高频元素</title>
-    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
-<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
-</blockquote>
-<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>桶排序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>类加载机制</title>
-    <url>/2020/09/01/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p><img src= "/img/loading.gif" data-lazy-src="https://upload-images.jianshu.io/upload_images/1900685-5b9f351d3bc5b208.png" alt="img"></p>
-<ul>
-<li>如图，一个类从被加载到虚拟机开始，到卸载出内存为止，他的生命周期经过了<strong>加载、验证、准备、解析、初始化、使用、卸载</strong>七个阶段。而类加载的全过程包括了加载、验证、准备、解析、初始化五个阶段。</li>
-<li><strong>类加载器的启动</strong>：类加载器并不需要等到某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被使用时就预先加载它，如果在预先加载的过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误（LinkageError错误）如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</li>
-<li><strong>开始顺序：</strong>在类加载中，加载、验证、准备、初始化四个步骤的开始顺序是固定的，而解析阶段则不一定，他在某些时候可以在初始化之后再开始解析。</li>
-</ul>
-<h2 id="2、加载"><a href="#2、加载" class="headerlink" title="2、加载"></a>2、加载</h2><p><strong>过程</strong></p>
-<ol>
-<li>通过一个类的全限定名来获取其定义的二进制字节流</li>
-<li>将这个字节流所代表的的静态存储结构转化为方法区的运行时数据结构</li>
-<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区中这个类的访问入口。(注意这里的Class对象和.class文件是完全不同的概念)</li>
-</ol>
-<p><strong>待加载的.class文件来源：</strong></p>
-<p>（1）本地磁盘</p>
-<p>（2）网上加载.class文件（Applet）</p>
-<p>（3）从数据库中</p>
-<p>（4）压缩文件中（ZAR，jar等）</p>
-<p>（5）从其他文件生成的（JSP应用）</p>
-<p>​          ……</p>
-<h2 id="3、验证"><a href="#3、验证" class="headerlink" title="3、验证"></a>3、验证</h2><p>因为.class文件可以由多种渠道得到，我们并不能保证它是由编译得到的，所以我们必须保证文件的准确性，拒绝不满足语义或者恶意的字节码流。</p>
-<p>验证的主要作用就是确保被加载的类的正确性。也是连接阶段的第一步。说白了也就是我们加载好的.class文件不能对我们的虚拟机有危害，所以先检测验证一下。他主要是完成四个阶段的验证：</p>
-<ol>
-<li><strong>文件格式的验证</strong>：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里面主要对魔数、主版本号、常量池等等的校验。<ol>
-<li>魔数：每个Class文件的头四个字节，唯一作用在于确定这个文件是否为一个可以被虚拟机接受的Class文件，十六进制表示为0xCAFEBABE。</li>
-<li>版本号：第五六字节为次版本号，七八字节为主版本号，标志能执行该CLASS文件的JDK版本，不过从JDK1.2之后到目前次版本号都未使用，固定为0。</li>
-<li>常量池：主要存放两大常量，即字面量和符号引用。字面量就是比如说int a = 1; 这个1就是字面量。又比如String a = “abc”,这个abc就是字面量。 在java中，一个java类将会编译成一个class文件。在编译时，java类并不知道引用类的实际内存地址，因此只能使用符号引用来代替。比如org.simple.People类要引用org.simple.Tool类，在编译时People类并不知道Tool类的实际内存地址，因此只能使用符号org.simple.Tool(假设)来表示Tool类的地址。而在类装载器装载People类时，此时可以通过虚拟机获取Tool类 的实际内存地址，因此便可以既将符号org.simple.Tool替换为Tool类的实际内存地址，及直接引用地址。</li>
-</ol>
-</li>
-<li><strong>元数据验证</strong>：主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
-<li><strong>字节码验证</strong>：这是整个验证过程最复杂的阶段，主要是通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。在元数据验证阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的行为。</li>
-<li><strong>符号引用验证</strong>：它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
-</ol>
-<p>对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
-<h2 id="4、准备"><a href="#4、准备" class="headerlink" title="4、准备"></a>4、准备</h2><p><strong>准备阶段主要为类变量分配内存并设置初始值</strong>。这些内存都在方法区分配。在这个阶段我们只需要注意两点就好了，也就是类变量和初始值两个关键词：</p>
-<p>（1）类变量（static）会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中，</p>
-<p>（2）这里的初始值指的是数据类型默认值，而不是代码中被显示赋予的值。比如</p>
-<p>public static int value = 1; //在这里准备阶段过后的value值为0，而不是1。赋值为1的动作在初始化阶段。</p>
-<p>当然还有其他的默认值。</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://pics2.baidu.com/feed/962bd40735fae6cdf616ed21e7a1f42043a70fe3.png?token=531148998856e5d92d0b437d9f9131b2&s=1AAA7423131A4DC8585DB1CB0300C0B1" alt="img"></p>
-<p>注意，在上面value是被static所修饰的准备阶段之后是0，但是如果同时被final和static修饰准备阶段之后就是1了。我们可以理解为static final在编译器就将结果放入调用它的类的常量池中了。</p>
-<h2 id="5、解析"><a href="#5、解析" class="headerlink" title="5、解析"></a>5、解析</h2><p>解析阶段主要是虚拟机将常量池中的符号引用转化为直接引用的过程。什么是符号应用和直接引用呢？</p>
-<p><strong>符号引用</strong>：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好，就好比在班级中，老师可以用张三来代表你，也可以用你的学号来代表你，但无论任何方式这些都只是一个代号（符号），这个代号指向你（符号引用）</p>
-<p><strong>直接引用</strong>：直接引用是可以指向目标的指针、相对偏移量或者是一个能直接或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
-<h2 id="6、初始化"><a href="#6、初始化" class="headerlink" title="6、初始化"></a>6、初始化</h2><p>这是类加载机制的最后一步，在这个阶段，java程序代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值。在初始化阶端，程序员可以根据自己的需求来赋值了。一句话描述这个阶段就是执行类构造器&lt; clinit &gt;()方法的过程。</p>
-<p>在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
-<p>①声明类变量是指定初始值</p>
-<p>②使用静态代码块为类变量指定初始值</p>
-<p>JVM初始化步骤</p>
-<p>1、假如这个类还没有被加载和连接，则程序先加载并连接该类</p>
-<p>2、假如该类的直接父类还没有被初始化，则先初始化其直接父类</p>
-<p>3、假如类中有初始化语句，则系统依次执行这些初始化语句</p>
-<p>类初始化时机：只有当对类的主动使用的时候才会导致类的初始化，类的主动使用包括以下六种：</p>
-<p>创建类的实例，也就是new的方式访问某个类或接口的静态变量，或者对该静态变量赋值调用类的静态方法反射（如 Class.forName(“com.shengsiyuan.Test”)）初始化某个类的子类，则其父类也会被初始化Java虚拟机启动时被标明为启动类的类（ JavaTest），直接使用 java.exe命令来运行某个主类好了，到目前为止就是类加载机制的整个过程，但是还有一个重要的概念，那就是类加载器。在加载阶段其实我们提到过类加载器，说是在后面详细说，在这就好好地介绍一下类加载器。</p>
-]]></content>
-      <categories>
-        <category>JVM虚拟机</category>
-      </categories>
-      <tags>
-        <tag>类加载机制</tag>
       </tags>
   </entry>
   <entry>
@@ -590,6 +480,159 @@
       </categories>
       <tags>
         <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode题解：二叉树的所有路径</title>
+    <url>/2020/09/04/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的所有路径"><a href="#二叉树的所有路径" class="headerlink" title="二叉树的所有路径"></a>二叉树的所有路径</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/binary-tree-paths/">257. 二叉树的所有路径</a></p>
+<p>给定一个二叉树，返回所有从根节点到叶子节点的路径。</p>
+<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
+</blockquote>
+<p>作为一道easy题，我们可以很容易的想到深度搜先搜索，这里把深搜和广搜两种解法都介绍一下。</p>
+<p><strong>深度优先搜索</strong></p>
+<p>在递归中，我们只需要考虑我们当前需要做什么以及递归的结束条件。在这道题里，因为是从根节点到叶子节点的距离，所以结束条件应该是在某个节点左右子树都为空，而我们遍历到任何一个非结束的节点时，需要做的是将这个节点的值加入当前路径中，并且递归到下一个非空的左右节点。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        dfs(list, stringBuilder, root);</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(List&lt;String&gt; list, StringBuilder stringBuilder, TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">            StringBuilder stringBuilder2 = <span class="keyword">new</span> StringBuilder(stringBuilder);</span><br><span class="line">            list.add(stringBuilder2.append(root.val).toString());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        StringBuilder temp = <span class="keyword">new</span> StringBuilder(stringBuilder);</span><br><span class="line">        temp.append(root.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (root.left != <span class="keyword">null</span>)</span><br><span class="line">            dfs(list, temp, root.left);</span><br><span class="line">        <span class="keyword">if</span> (root.right != <span class="keyword">null</span>)</span><br><span class="line">            dfs(list, temp, root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>广度优先搜索</strong></p>
+<p>相比深搜，广搜我们需要两个队列，一个储存节点，一个储存到该节点之前的路径（因为是二叉树，从根节点到某个指定节点必定只有一条唯一的路径），而之所以存储到该节点之前的路径，是因为最后输出形式中间有箭头，而最后一个数后面是不需要箭头的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//结果集</span></span><br><span class="line">        Queue&lt;TreeNode&gt; node_queue = <span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//节点队列</span></span><br><span class="line">        Queue&lt;String&gt; path_queue = <span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//路径队列</span></span><br><span class="line">        node_queue.offer(root);</span><br><span class="line">        path_queue.offer(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span> (!node_queue.isEmpty()) &#123;</span><br><span class="line">            TreeNode node = node_queue.poll();</span><br><span class="line">            String path = path_queue.poll();</span><br><span class="line">            <span class="keyword">if</span> (node.left == <span class="keyword">null</span> &amp;&amp; node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">                list.add(path + node.val);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                node_queue.offer(node.left);</span><br><span class="line">                path_queue.offer(path + node.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                node_queue.offer(node.right);</span><br><span class="line">                path_queue.offer(path + node.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>广度优先搜索</tag>
+        <tag>深度优先搜索</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode题解：前K个高频元素</title>
+    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
+<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
+</blockquote>
+<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>桶排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode题解：组合</title>
+    <url>/2020/09/08/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/combinations/">77. 组合</a></p>
+<p>给定两个整数 <em>n</em> 和 <em>k</em>，返回 1 … <em>n</em> 中所有可能的 <em>k</em> 个数的组合。</p>
+</blockquote>
+<p>这种求组合的问题，很容易想到用回溯来求解，然后就是做好剪枝处理。首先，因为他只需要求组合，而不关心组合内部顺序，所以我们可以默认每个数组从小到大排列，不必每次都从开始查找。其次，当我们判断剩余可以遍历的数已经不足以满足我们凑巧k个数时，就没有继续遍历的必要了。</p>
+<p>递归结构：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1599488203-TzmCXb-image.png" alt="回溯方法"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        backTrace(list, n, k, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> lists;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">backTrace</span><span class="params">(List&lt;Integer&gt; list, <span class="keyword">int</span> n, <span class="keyword">int</span> k, <span class="keyword">int</span> ans)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n - ans + <span class="number">1</span> &lt; k) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">0</span>) &#123;</span><br><span class="line">            lists.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = ans; i &lt;= n; i++) &#123;</span><br><span class="line">            list.add(i);</span><br><span class="line">            backTrace(list, n, k - <span class="number">1</span>, i + <span class="number">1</span>);</span><br><span class="line">            list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>回溯算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode题解：组合总和</title>
+    <url>/2020/09/09/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="组合总和"><a href="#组合总和" class="headerlink" title="组合总和"></a>组合总和</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/combination-sum/">39. 组合总和</a></p>
+<p>给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
+<p>candidates 中的数字可以无限制重复被选取。</p>
+<p>说明：</p>
+<p>所有数字（包括 target）都是正整数。<br>解集不能包含重复的组合。 </p>
+</blockquote>
+<p>今天的这题和昨天的基本一致，就连解法也没有过多差异。只不过这题的数字是可以重复的，所以我们传参时索引不必+1,然后在剪枝时，如果此时的总和已经大于target了，那就没有继续遍历的意义了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combinationSum(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        backTrace(lists, candidates, list, <span class="number">0</span>, <span class="number">0</span>, target);</span><br><span class="line">        <span class="keyword">return</span> lists;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">backTrace</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; lists, <span class="keyword">int</span>[] candidates, List&lt;Integer&gt; list, <span class="keyword">int</span> index, <span class="keyword">int</span> sum, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">            lists.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sum &gt; target) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = index; i &lt; candidates.length; i++) &#123;</span><br><span class="line">            list.add(candidates[i]);</span><br><span class="line">            sum += candidates[i];</span><br><span class="line">            backTrace(lists, candidates, list, i, sum, target);</span><br><span class="line">            list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">            sum -= candidates[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>回溯算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>类加载机制</title>
+    <url>/2020/09/01/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p><img src= "/img/loading.gif" data-lazy-src="https://upload-images.jianshu.io/upload_images/1900685-5b9f351d3bc5b208.png" alt="img"></p>
+<ul>
+<li>如图，一个类从被加载到虚拟机开始，到卸载出内存为止，他的生命周期经过了<strong>加载、验证、准备、解析、初始化、使用、卸载</strong>七个阶段。而类加载的全过程包括了加载、验证、准备、解析、初始化五个阶段。</li>
+<li><strong>类加载器的启动</strong>：类加载器并不需要等到某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被使用时就预先加载它，如果在预先加载的过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误（LinkageError错误）如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</li>
+<li><strong>开始顺序：</strong>在类加载中，加载、验证、准备、初始化四个步骤的开始顺序是固定的，而解析阶段则不一定，他在某些时候可以在初始化之后再开始解析。</li>
+</ul>
+<h2 id="2、加载"><a href="#2、加载" class="headerlink" title="2、加载"></a>2、加载</h2><p><strong>过程</strong></p>
+<ol>
+<li>通过一个类的全限定名来获取其定义的二进制字节流</li>
+<li>将这个字节流所代表的的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区中这个类的访问入口。(注意这里的Class对象和.class文件是完全不同的概念)</li>
+</ol>
+<p><strong>待加载的.class文件来源：</strong></p>
+<p>（1）本地磁盘</p>
+<p>（2）网上加载.class文件（Applet）</p>
+<p>（3）从数据库中</p>
+<p>（4）压缩文件中（ZAR，jar等）</p>
+<p>（5）从其他文件生成的（JSP应用）</p>
+<p>​          ……</p>
+<h2 id="3、验证"><a href="#3、验证" class="headerlink" title="3、验证"></a>3、验证</h2><p>因为.class文件可以由多种渠道得到，我们并不能保证它是由编译得到的，所以我们必须保证文件的准确性，拒绝不满足语义或者恶意的字节码流。</p>
+<p>验证的主要作用就是确保被加载的类的正确性。也是连接阶段的第一步。说白了也就是我们加载好的.class文件不能对我们的虚拟机有危害，所以先检测验证一下。他主要是完成四个阶段的验证：</p>
+<ol>
+<li><strong>文件格式的验证</strong>：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里面主要对魔数、主版本号、常量池等等的校验。<ol>
+<li>魔数：每个Class文件的头四个字节，唯一作用在于确定这个文件是否为一个可以被虚拟机接受的Class文件，十六进制表示为0xCAFEBABE。</li>
+<li>版本号：第五六字节为次版本号，七八字节为主版本号，标志能执行该CLASS文件的JDK版本，不过从JDK1.2之后到目前次版本号都未使用，固定为0。</li>
+<li>常量池：主要存放两大常量，即字面量和符号引用。字面量就是比如说int a = 1; 这个1就是字面量。又比如String a = “abc”,这个abc就是字面量。 在java中，一个java类将会编译成一个class文件。在编译时，java类并不知道引用类的实际内存地址，因此只能使用符号引用来代替。比如org.simple.People类要引用org.simple.Tool类，在编译时People类并不知道Tool类的实际内存地址，因此只能使用符号org.simple.Tool(假设)来表示Tool类的地址。而在类装载器装载People类时，此时可以通过虚拟机获取Tool类 的实际内存地址，因此便可以既将符号org.simple.Tool替换为Tool类的实际内存地址，及直接引用地址。</li>
+</ol>
+</li>
+<li><strong>元数据验证</strong>：主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
+<li><strong>字节码验证</strong>：这是整个验证过程最复杂的阶段，主要是通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。在元数据验证阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的行为。</li>
+<li><strong>符号引用验证</strong>：它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
+</ol>
+<p>对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
+<h2 id="4、准备"><a href="#4、准备" class="headerlink" title="4、准备"></a>4、准备</h2><p><strong>准备阶段主要为类变量分配内存并设置初始值</strong>。这些内存都在方法区分配。在这个阶段我们只需要注意两点就好了，也就是类变量和初始值两个关键词：</p>
+<p>（1）类变量（static）会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中，</p>
+<p>（2）这里的初始值指的是数据类型默认值，而不是代码中被显示赋予的值。比如</p>
+<p>public static int value = 1; //在这里准备阶段过后的value值为0，而不是1。赋值为1的动作在初始化阶段。</p>
+<p>当然还有其他的默认值。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://pics2.baidu.com/feed/962bd40735fae6cdf616ed21e7a1f42043a70fe3.png?token=531148998856e5d92d0b437d9f9131b2&s=1AAA7423131A4DC8585DB1CB0300C0B1" alt="img"></p>
+<p>注意，在上面value是被static所修饰的准备阶段之后是0，但是如果同时被final和static修饰准备阶段之后就是1了。我们可以理解为static final在编译器就将结果放入调用它的类的常量池中了。</p>
+<h2 id="5、解析"><a href="#5、解析" class="headerlink" title="5、解析"></a>5、解析</h2><p>解析阶段主要是虚拟机将常量池中的符号引用转化为直接引用的过程。什么是符号应用和直接引用呢？</p>
+<p><strong>符号引用</strong>：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好，就好比在班级中，老师可以用张三来代表你，也可以用你的学号来代表你，但无论任何方式这些都只是一个代号（符号），这个代号指向你（符号引用）</p>
+<p><strong>直接引用</strong>：直接引用是可以指向目标的指针、相对偏移量或者是一个能直接或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
+<h2 id="6、初始化"><a href="#6、初始化" class="headerlink" title="6、初始化"></a>6、初始化</h2><p>这是类加载机制的最后一步，在这个阶段，java程序代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值。在初始化阶端，程序员可以根据自己的需求来赋值了。一句话描述这个阶段就是执行类构造器&lt; clinit &gt;()方法的过程。</p>
+<p>在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
+<p>①声明类变量是指定初始值</p>
+<p>②使用静态代码块为类变量指定初始值</p>
+<p>JVM初始化步骤</p>
+<p>1、假如这个类还没有被加载和连接，则程序先加载并连接该类</p>
+<p>2、假如该类的直接父类还没有被初始化，则先初始化其直接父类</p>
+<p>3、假如类中有初始化语句，则系统依次执行这些初始化语句</p>
+<p>类初始化时机：只有当对类的主动使用的时候才会导致类的初始化，类的主动使用包括以下六种：</p>
+<p>创建类的实例，也就是new的方式访问某个类或接口的静态变量，或者对该静态变量赋值调用类的静态方法反射（如 Class.forName(“com.shengsiyuan.Test”)）初始化某个类的子类，则其父类也会被初始化Java虚拟机启动时被标明为启动类的类（ JavaTest），直接使用 java.exe命令来运行某个主类好了，到目前为止就是类加载机制的整个过程，但是还有一个重要的概念，那就是类加载器。在加载阶段其实我们提到过类加载器，说是在后面详细说，在这就好好地介绍一下类加载器。</p>
+]]></content>
+      <categories>
+        <category>JVM虚拟机</category>
+      </categories>
+      <tags>
+        <tag>类加载机制</tag>
       </tags>
   </entry>
   <entry>
