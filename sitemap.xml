@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2020/09/09/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/</loc>
+    <loc>http://yoursite.com/2020/09/08/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88/</loc>
     
     <lastmod>2020-09-09</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2020/09/08/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88/</loc>
+    <loc>http://yoursite.com/2020/09/09/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/</loc>
     
     <lastmod>2020-09-09</lastmod>
     
@@ -249,14 +249,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
+    <loc>http://yoursite.com/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/</loc>
     <lastmod>2020-09-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/</loc>
+    <loc>http://yoursite.com/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/</loc>
     <lastmod>2020-09-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
