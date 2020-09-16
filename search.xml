@@ -193,6 +193,46 @@
       </tags>
   </entry>
   <entry>
+    <title>PageHelper分页插件</title>
+    <url>/2020/09/01/PageHelper%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="PageHelper分页插件"><a href="#PageHelper分页插件" class="headerlink" title="PageHelper分页插件"></a>PageHelper分页插件</h1><h2 id="1、引入"><a href="#1、引入" class="headerlink" title="1、引入"></a>1、引入</h2><p><strong>pom.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 分页插件 PageHelper --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>使用过高版本的PageHelper可能因为springboot依赖版本不够导致无法分页。</li>
+<li>PageHelper.startPage(pageNum,pageSize);只对语句下第一个查询语句生效。</li>
+</ul>
+<p><strong>application.yml</strong></p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pagehelper:</span></span><br><span class="line">  <span class="attr">helper-dialect:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">reasonable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">support-methods-arguments:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>参数：</strong></p>
+<ol>
+<li><code>helperDialect</code>：分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。 你可以配置<code>helperDialect</code>属性来指定分页插件使用哪种方言。配置时，可以使用下面的缩写值：<br><code>oracle</code>,<code>mysql</code>,<code>mariadb</code>,<code>sqlite</code>,<code>hsqldb</code>,<code>postgresql</code>,<code>db2</code>,<code>sqlserver</code>,<code>informix</code>,<code>h2</code>,<code>sqlserver2012</code>,<code>derby</code><br><strong>特别注意：</strong>使用 SqlServer2012 数据库时，需要手动指定为 <code>sqlserver2012</code>，否则会使用 SqlServer2005 的方式进行分页。<br>你也可以实现 <code>AbstractHelperDialect</code>，然后配置该属性为实现类的全限定名称即可使用自定义的实现方法。</li>
+<li><code>offsetAsPageNum</code>：默认值为 <code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为 <code>true</code> 时，会将 <code>RowBounds</code> 中的 <code>offset</code> 参数当成 <code>pageNum</code> 使用，可以用页码和页面大小两个参数进行分页。</li>
+<li><code>rowBoundsWithCount</code>：默认值为<code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为<code>true</code>时，使用 <code>RowBounds</code> 分页会进行 count 查询。</li>
+<li><code>pageSizeZero</code>：默认值为 <code>false</code>，当该参数设置为 <code>true</code> 时，如果 <code>pageSize=0</code> 或者 <code>RowBounds.limit = 0</code> 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 <code>Page</code> 类型）。</li>
+<li><code>reasonable</code>：分页合理化参数，默认值为<code>false</code>。当该参数设置为 <code>true</code> 时，<code>pageNum&lt;=0</code> 时会查询第一页， <code>pageNum&gt;pages</code>（超过总数时），会查询最后一页。默认<code>false</code> 时，直接根据参数进行查询。</li>
+<li><code>params</code>：为了支持<code>startPage(Object params)</code>方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值， 可以配置 <code>pageNum,pageSize,count,pageSizeZero,reasonable</code>，不配置映射的用默认值， 默认值为<code>pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero</code>。</li>
+<li><code>supportMethodsArguments</code>：支持通过 Mapper 接口参数来传递分页参数，默认值<code>false</code>，分页插件会从查询方法的参数值中，自动根据上面 <code>params</code> 配置的字段中取值，查找到合适的值时就会自动分页。 使用方法可以参考测试代码中的 <code>com.github.pagehelper.test.basic</code> 包下的 <code>ArgumentsMapTest</code> 和 <code>ArgumentsObjTest</code>。</li>
+<li><code>autoRuntimeDialect</code>：默认值为 <code>false</code>。设置为 <code>true</code> 时，允许在运行时根据多数据源自动识别对应方言的分页 （不支持自动选择<code>sqlserver2012</code>，只能使用<code>sqlserver</code>），用法和注意事项参考下面的<strong>场景五</strong>。</li>
+<li><code>closeConn</code>：默认值为 <code>true</code>。当使用运行时动态数据源或没有设置 <code>helperDialect</code> 属性自动获取数据库类型时，会自动获取一个数据库连接， 通过该属性来设置是否关闭获取的这个连接，默认<code>true</code>关闭，设置为 <code>false</code> 后，不会关闭获取的连接，这个参数的设置要根据自己选择的数据源来决定。</li>
+</ol>
+<p><strong>提示</strong>：当 <code>offsetAsPageNum=false</code> 的时候，由于 <code>PageNum</code> 问题，<code>RowBounds</code>查询的时候 <code>reasonable</code> 会强制为 <code>false</code>。使用 <code>PageHelper.startPage</code> 方法不受影响。</p>
+<h2 id="2、使用"><a href="#2、使用" class="headerlink" title="2、使用"></a>2、使用</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/findPage/&#123;pageNum&#125;/&#123;pageSize&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> PageInfo&lt;Book&gt; <span class="title">findPage</span><span class="params">(<span class="meta">@PathVariable</span> (<span class="string">&quot;pageNum&quot;</span>)</span> <span class="keyword">int</span> pageNum,@<span class="title">PathVariable</span><span class="params">(<span class="string">&quot;pageSize&quot;</span>)</span> <span class="keyword">int</span> pageSize)</span>&#123;</span><br><span class="line">    PageHelper.startPage(pageNum,pageSize);</span><br><span class="line">    List&lt;Book&gt; list=bookRepository.findAll();</span><br><span class="line">    PageInfo&lt;Book&gt; pageInfo=<span class="keyword">new</span> PageInfo&lt;Book&gt;(list);</span><br><span class="line">    <span class="keyword">return</span> pageInfo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>pageInfo返回数据：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span>: <span class="number">23</span>,</span><br><span class="line">    <span class="attr">&quot;list&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;a&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;b&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;f&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;g&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;java&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;张三&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;python&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;hxd&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">5</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;dsfsa&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;safsa&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">6</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;dd&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;dfs&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">7</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;7&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;7&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">8</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;8&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;8&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">9</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;对算法&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;d的萨芬&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">10</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;算法&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;汉化&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;pageNum&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;pageSize&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;size&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;startRow&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;endRow&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;pages&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;prePage&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;nextPage&quot;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">&quot;isFirstPage&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;isLastPage&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;hasPreviousPage&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;hasNextPage&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;navigatePages&quot;</span>: <span class="number">8</span>,</span><br><span class="line">    <span class="attr">&quot;navigatepageNums&quot;</span>: [</span><br><span class="line">        <span class="number">1</span>,</span><br><span class="line">        <span class="number">2</span>,</span><br><span class="line">        <span class="number">3</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;navigateFirstPage&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;navigateLastPage&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;lastPage&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;firstPage&quot;</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
+      <tags>
+        <tag>分页</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Shiro简单使用</title>
     <url>/2020/09/01/Shiro/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Shiro简单使用"><a href="#Shiro简单使用" class="headerlink" title="Shiro简单使用"></a>Shiro简单使用</h1><p>什么是 Shiro</p>
@@ -271,46 +311,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PageHelper分页插件</title>
-    <url>/2020/09/01/PageHelper%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="PageHelper分页插件"><a href="#PageHelper分页插件" class="headerlink" title="PageHelper分页插件"></a>PageHelper分页插件</h1><h2 id="1、引入"><a href="#1、引入" class="headerlink" title="1、引入"></a>1、引入</h2><p><strong>pom.xml</strong></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 分页插件 PageHelper --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<ul>
-<li>使用过高版本的PageHelper可能因为springboot依赖版本不够导致无法分页。</li>
-<li>PageHelper.startPage(pageNum,pageSize);只对语句下第一个查询语句生效。</li>
-</ul>
-<p><strong>application.yml</strong></p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pagehelper:</span></span><br><span class="line">  <span class="attr">helper-dialect:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">reasonable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">support-methods-arguments:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>参数：</strong></p>
-<ol>
-<li><code>helperDialect</code>：分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。 你可以配置<code>helperDialect</code>属性来指定分页插件使用哪种方言。配置时，可以使用下面的缩写值：<br><code>oracle</code>,<code>mysql</code>,<code>mariadb</code>,<code>sqlite</code>,<code>hsqldb</code>,<code>postgresql</code>,<code>db2</code>,<code>sqlserver</code>,<code>informix</code>,<code>h2</code>,<code>sqlserver2012</code>,<code>derby</code><br><strong>特别注意：</strong>使用 SqlServer2012 数据库时，需要手动指定为 <code>sqlserver2012</code>，否则会使用 SqlServer2005 的方式进行分页。<br>你也可以实现 <code>AbstractHelperDialect</code>，然后配置该属性为实现类的全限定名称即可使用自定义的实现方法。</li>
-<li><code>offsetAsPageNum</code>：默认值为 <code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为 <code>true</code> 时，会将 <code>RowBounds</code> 中的 <code>offset</code> 参数当成 <code>pageNum</code> 使用，可以用页码和页面大小两个参数进行分页。</li>
-<li><code>rowBoundsWithCount</code>：默认值为<code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为<code>true</code>时，使用 <code>RowBounds</code> 分页会进行 count 查询。</li>
-<li><code>pageSizeZero</code>：默认值为 <code>false</code>，当该参数设置为 <code>true</code> 时，如果 <code>pageSize=0</code> 或者 <code>RowBounds.limit = 0</code> 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 <code>Page</code> 类型）。</li>
-<li><code>reasonable</code>：分页合理化参数，默认值为<code>false</code>。当该参数设置为 <code>true</code> 时，<code>pageNum&lt;=0</code> 时会查询第一页， <code>pageNum&gt;pages</code>（超过总数时），会查询最后一页。默认<code>false</code> 时，直接根据参数进行查询。</li>
-<li><code>params</code>：为了支持<code>startPage(Object params)</code>方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值， 可以配置 <code>pageNum,pageSize,count,pageSizeZero,reasonable</code>，不配置映射的用默认值， 默认值为<code>pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero</code>。</li>
-<li><code>supportMethodsArguments</code>：支持通过 Mapper 接口参数来传递分页参数，默认值<code>false</code>，分页插件会从查询方法的参数值中，自动根据上面 <code>params</code> 配置的字段中取值，查找到合适的值时就会自动分页。 使用方法可以参考测试代码中的 <code>com.github.pagehelper.test.basic</code> 包下的 <code>ArgumentsMapTest</code> 和 <code>ArgumentsObjTest</code>。</li>
-<li><code>autoRuntimeDialect</code>：默认值为 <code>false</code>。设置为 <code>true</code> 时，允许在运行时根据多数据源自动识别对应方言的分页 （不支持自动选择<code>sqlserver2012</code>，只能使用<code>sqlserver</code>），用法和注意事项参考下面的<strong>场景五</strong>。</li>
-<li><code>closeConn</code>：默认值为 <code>true</code>。当使用运行时动态数据源或没有设置 <code>helperDialect</code> 属性自动获取数据库类型时，会自动获取一个数据库连接， 通过该属性来设置是否关闭获取的这个连接，默认<code>true</code>关闭，设置为 <code>false</code> 后，不会关闭获取的连接，这个参数的设置要根据自己选择的数据源来决定。</li>
-</ol>
-<p><strong>提示</strong>：当 <code>offsetAsPageNum=false</code> 的时候，由于 <code>PageNum</code> 问题，<code>RowBounds</code>查询的时候 <code>reasonable</code> 会强制为 <code>false</code>。使用 <code>PageHelper.startPage</code> 方法不受影响。</p>
-<h2 id="2、使用"><a href="#2、使用" class="headerlink" title="2、使用"></a>2、使用</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/findPage/&#123;pageNum&#125;/&#123;pageSize&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> PageInfo&lt;Book&gt; <span class="title">findPage</span><span class="params">(<span class="meta">@PathVariable</span> (<span class="string">&quot;pageNum&quot;</span>)</span> <span class="keyword">int</span> pageNum,@<span class="title">PathVariable</span><span class="params">(<span class="string">&quot;pageSize&quot;</span>)</span> <span class="keyword">int</span> pageSize)</span>&#123;</span><br><span class="line">    PageHelper.startPage(pageNum,pageSize);</span><br><span class="line">    List&lt;Book&gt; list=bookRepository.findAll();</span><br><span class="line">    PageInfo&lt;Book&gt; pageInfo=<span class="keyword">new</span> PageInfo&lt;Book&gt;(list);</span><br><span class="line">    <span class="keyword">return</span> pageInfo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>pageInfo返回数据：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span>: <span class="number">23</span>,</span><br><span class="line">    <span class="attr">&quot;list&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;a&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;b&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;f&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;g&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;java&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;张三&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;python&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;hxd&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">5</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;dsfsa&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;safsa&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">6</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;dd&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;dfs&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">7</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;7&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;7&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">8</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;8&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;8&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">9</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;对算法&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;d的萨芬&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;id&quot;</span>: <span class="number">10</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;算法&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;auther&quot;</span>: <span class="string">&quot;汉化&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;pageNum&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;pageSize&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;size&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;startRow&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;endRow&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;pages&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;prePage&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;nextPage&quot;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">&quot;isFirstPage&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;isLastPage&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;hasPreviousPage&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;hasNextPage&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;navigatePages&quot;</span>: <span class="number">8</span>,</span><br><span class="line">    <span class="attr">&quot;navigatepageNums&quot;</span>: [</span><br><span class="line">        <span class="number">1</span>,</span><br><span class="line">        <span class="number">2</span>,</span><br><span class="line">        <span class="number">3</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;navigateFirstPage&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;navigateLastPage&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;lastPage&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">&quot;firstPage&quot;</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>插件</category>
-      </categories>
-      <tags>
-        <tag>分页</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Typora快捷键</title>
     <url>/2020/09/01/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><ul>
@@ -352,52 +352,6 @@
       </categories>
       <tags>
         <tag>快捷键</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode题解：二叉树的所有路径</title>
-    <url>/2020/09/04/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的所有路径"><a href="#二叉树的所有路径" class="headerlink" title="二叉树的所有路径"></a>二叉树的所有路径</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/binary-tree-paths/">257. 二叉树的所有路径</a></p>
-<p>给定一个二叉树，返回所有从根节点到叶子节点的路径。</p>
-<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
-</blockquote>
-<p>作为一道easy题，我们可以很容易的想到深度搜先搜索，这里把深搜和广搜两种解法都介绍一下。</p>
-<p><strong>深度优先搜索</strong></p>
-<p>在递归中，我们只需要考虑我们当前需要做什么以及递归的结束条件。在这道题里，因为是从根节点到叶子节点的距离，所以结束条件应该是在某个节点左右子树都为空，而我们遍历到任何一个非结束的节点时，需要做的是将这个节点的值加入当前路径中，并且递归到下一个非空的左右节点。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        dfs(list, stringBuilder, root);</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(List&lt;String&gt; list, StringBuilder stringBuilder, TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">            StringBuilder stringBuilder2 = <span class="keyword">new</span> StringBuilder(stringBuilder);</span><br><span class="line">            list.add(stringBuilder2.append(root.val).toString());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        StringBuilder temp = <span class="keyword">new</span> StringBuilder(stringBuilder);</span><br><span class="line">        temp.append(root.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (root.left != <span class="keyword">null</span>)</span><br><span class="line">            dfs(list, temp, root.left);</span><br><span class="line">        <span class="keyword">if</span> (root.right != <span class="keyword">null</span>)</span><br><span class="line">            dfs(list, temp, root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>广度优先搜索</strong></p>
-<p>相比深搜，广搜我们需要两个队列，一个储存节点，一个储存到该节点之前的路径（因为是二叉树，从根节点到某个指定节点必定只有一条唯一的路径），而之所以存储到该节点之前的路径，是因为最后输出形式中间有箭头，而最后一个数后面是不需要箭头的。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//结果集</span></span><br><span class="line">        Queue&lt;TreeNode&gt; node_queue = <span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//节点队列</span></span><br><span class="line">        Queue&lt;String&gt; path_queue = <span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//路径队列</span></span><br><span class="line">        node_queue.offer(root);</span><br><span class="line">        path_queue.offer(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span> (!node_queue.isEmpty()) &#123;</span><br><span class="line">            TreeNode node = node_queue.poll();</span><br><span class="line">            String path = path_queue.poll();</span><br><span class="line">            <span class="keyword">if</span> (node.left == <span class="keyword">null</span> &amp;&amp; node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">                list.add(path + node.val);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                node_queue.offer(node.left);</span><br><span class="line">                path_queue.offer(path + node.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                node_queue.offer(node.right);</span><br><span class="line">                path_queue.offer(path + node.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>深度优先搜索</tag>
-        <tag>广度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode题解：前K个高频元素</title>
-    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
-<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
-</blockquote>
-<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>桶排序</tag>
       </tags>
   </entry>
   <entry>
@@ -446,11 +400,50 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2020/09/13/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
+    <title>leetcode题解：二叉树的所有路径</title>
+    <url>/2020/09/04/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的所有路径"><a href="#二叉树的所有路径" class="headerlink" title="二叉树的所有路径"></a>二叉树的所有路径</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/binary-tree-paths/">257. 二叉树的所有路径</a></p>
+<p>给定一个二叉树，返回所有从根节点到叶子节点的路径。</p>
+<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
 </blockquote>
+<p>作为一道easy题，我们可以很容易的想到深度搜先搜索，这里把深搜和广搜两种解法都介绍一下。</p>
+<p><strong>深度优先搜索</strong></p>
+<p>在递归中，我们只需要考虑我们当前需要做什么以及递归的结束条件。在这道题里，因为是从根节点到叶子节点的距离，所以结束条件应该是在某个节点左右子树都为空，而我们遍历到任何一个非结束的节点时，需要做的是将这个节点的值加入当前路径中，并且递归到下一个非空的左右节点。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        dfs(list, stringBuilder, root);</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(List&lt;String&gt; list, StringBuilder stringBuilder, TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">            StringBuilder stringBuilder2 = <span class="keyword">new</span> StringBuilder(stringBuilder);</span><br><span class="line">            list.add(stringBuilder2.append(root.val).toString());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        StringBuilder temp = <span class="keyword">new</span> StringBuilder(stringBuilder);</span><br><span class="line">        temp.append(root.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (root.left != <span class="keyword">null</span>)</span><br><span class="line">            dfs(list, temp, root.left);</span><br><span class="line">        <span class="keyword">if</span> (root.right != <span class="keyword">null</span>)</span><br><span class="line">            dfs(list, temp, root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>广度优先搜索</strong></p>
+<p>相比深搜，广搜我们需要两个队列，一个储存节点，一个储存到该节点之前的路径（因为是二叉树，从根节点到某个指定节点必定只有一条唯一的路径），而之所以存储到该节点之前的路径，是因为最后输出形式中间有箭头，而最后一个数后面是不需要箭头的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//结果集</span></span><br><span class="line">        Queue&lt;TreeNode&gt; node_queue = <span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//节点队列</span></span><br><span class="line">        Queue&lt;String&gt; path_queue = <span class="keyword">new</span> LinkedList&lt;&gt;();<span class="comment">//路径队列</span></span><br><span class="line">        node_queue.offer(root);</span><br><span class="line">        path_queue.offer(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span> (!node_queue.isEmpty()) &#123;</span><br><span class="line">            TreeNode node = node_queue.poll();</span><br><span class="line">            String path = path_queue.poll();</span><br><span class="line">            <span class="keyword">if</span> (node.left == <span class="keyword">null</span> &amp;&amp; node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">                list.add(path + node.val);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                node_queue.offer(node.left);</span><br><span class="line">                path_queue.offer(path + node.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                node_queue.offer(node.right);</span><br><span class="line">                path_queue.offer(path + node.val + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>广度优先搜索</tag>
+        <tag>深度优先搜索</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode题解：前K个高频元素</title>
+    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
+<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
+</blockquote>
+<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>桶排序</tag>
+      </tags>
   </entry>
   <entry>
     <title>leetcode题解：数组中数字出现的次数</title>
@@ -551,6 +544,13 @@
       </tags>
   </entry>
   <entry>
+    <title></title>
+    <url>/2020/09/13/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
     <title>leetcode题解：组合总和</title>
     <url>/2020/09/09/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="组合总和"><a href="#组合总和" class="headerlink" title="组合总和"></a>组合总和</h1><blockquote>
@@ -572,6 +572,96 @@
       <tags>
         <tag>回溯算法</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>阿里云环境配置</title>
+    <url>/2020/09/16/%E9%98%BF%E9%87%8C%E4%BA%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="阿里云环境配置"><a href="#阿里云环境配置" class="headerlink" title="阿里云环境配置"></a>阿里云环境配置</h1><blockquote>
+<p> 之前的学生免费试用的阿里云服务器过期了，只能再买一年重新配下环境，记录一下安装步骤，方便以后少走弯路。</p>
+</blockquote>
+<h2 id="1、MySQL"><a href="#1、MySQL" class="headerlink" title="1、MySQL"></a>1、MySQL</h2><ol>
+<li>删除原来的数据库：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# rpm -qa|grep mariadb  &#x2F;&#x2F; 查询出来已安装的mariadb</span><br><span class="line">[root@localhost ~]# rpm -e --nodeps 文件名  &#x2F;&#x2F; 卸载mariadb，文件名为上述命令查询出来的文件</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装MySQL官方的yum repository</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# wget -i -c http:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>下载rpm包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>安装MySQL服务</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果安装不成功，则先执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum module disable mysql</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="5">
+<li>mysql基本命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启动：systemctl start  mysqld.service</span><br><span class="line"></span><br><span class="line">重启：systemctl restart mysqld.service</span><br><span class="line"></span><br><span class="line">停止：systemctl stop mysqld.service</span><br><span class="line"></span><br><span class="line">查看状态：systemctl status mysqld.service</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置开机自启：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@woitumi-128 ~]# systemctl enable mysqld</span><br><span class="line"></span><br><span class="line">[root@woitumi-128 ~]# systemctl daemon-reload   刚刚配置的服务需要让systemctl能识别，就必须刷新配置</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>修改密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">获取mysql初始密码: grep &#39;temporary password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">进入mysql: mysql -u root -p</span><br><span class="line">MySQL版本5.7.6版本以前用户可以使用如下命令：</span><br><span class="line">mysql&gt; SET PASSWORD &#x3D; PASSWORD(&#39;123456&#39;); </span><br><span class="line">MySQL版本5.7.6版本开始的用户可以使用如下命令：</span><br><span class="line">mysql&gt; ALTER USER USER() IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>mysql可能禁止密码过于简单</p>
+<ul>
+<li><p>设置 validate_password_policy 的全局参数为 0</p>
+</li>
+<li><pre><code>set global validate_password_policy=0;
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 设置密码最低长度</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  set global validate_password_length&#x3D;6; </span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>​    7.退出数据库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql&gt; exit;</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li><p>连接本地navicat问题</p>
+<ol>
+<li><p>必须在阿里云服务器安全组中开放3306端口</p>
+</li>
+<li><p>开放数据库的远程访问权限</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">select host from user where user&#x3D;&#39;root&#39;;</span><br><span class="line">update user set host &#x3D; &#39;%&#39; where user &#x3D;&#39;root&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="2、Java环境"><a href="#2、Java环境" class="headerlink" title="2、Java环境"></a>2、Java环境</h2><p>1、使用xftp上传文件</p>
+<p>2、解压缩</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rpm -ivh jdk-8u221-linux-x64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>3、环境变量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;i进入编辑 esc :wq退出编辑</span><br><span class="line">JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_221-amd64</span><br><span class="line">CLASSPATH&#x3D;%JAVA_HOME%&#x2F;lib:%JAVA_HOME%&#x2F;jre&#x2F;lib</span><br><span class="line">PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$JAVA_HOME&#x2F;jre&#x2F;bin</span><br><span class="line">export PATH CLASSPATH JAVA_HOME</span><br></pre></td></tr></table></figure>
+
+<p>4、让配置生效</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
   </entry>
   <entry>
     <title>类加载机制</title>
