@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>/2020/09/26/-%E9%AB%98%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="高并发访问数据库优化"><a href="#高并发访问数据库优化" class="headerlink" title="高并发访问数据库优化"></a>高并发访问数据库优化</h1><p>秒杀项目终于基本完成了，对于数据库的高并发访问优化也有了一些心得，这里一点一点地来讨论一下。</p>
+<h2 id="1、Tomcat调优"><a href="#1、Tomcat调优" class="headerlink" title="1、Tomcat调优"></a>1、Tomcat调优</h2><p>tomcat的默认配置对于日常练手的小项目是足够的，但是当涉及高并发时就需要我们手动调优了，因为它在默认情况下支持的多线程并发数量很难达到高并发的预期要求。</p>
+<p>这边列举一下几个比较常用的参数：</p>
+<p> maxThreads：最大线程数。<br>minSpareThreads：初始化时创建的线程数。<br>maxSpareThreads：一旦创建的线程超过这个值，Tomcat就会关闭不再需要的socket线程。</p>
+<p>acceptCount：指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理。</p>
+<p>keepAliveTimeOut：多少毫秒后不响应的断开keepAlive.</p>
+<p>maxKeepAliveRequests：多少次请求后断开keepAlive失效。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">tomcat:</span></span><br><span class="line">    <span class="attr">accept-count:</span> <span class="number">1000</span></span><br><span class="line">    <span class="attr">threads:</span></span><br><span class="line">      <span class="attr">min-spare:</span> <span class="number">100</span></span><br><span class="line">      <span class="attr">max:</span> <span class="number">800</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.miaoshaproject.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.catalina.connector.Connector;</span><br><span class="line"><span class="keyword">import</span> org.apache.coyote.http11.Http11NioProtocol;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.web.server.ConfigurableWebServerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.web.server.WebServerFactoryCustomizer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//当spring容器内没有TomcatEmbeddedServletContainerFactory这个bean时，会把此bean加载到容器中</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebServerConfiguration</span> <span class="keyword">implements</span> <span class="title">WebServerFactoryCustomizer</span>&lt;<span class="title">ConfigurableWebServerFactory</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customize</span><span class="params">(ConfigurableWebServerFactory factory)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//使用对应工厂类提供给我们的类定制化我们的tomcat connector</span></span><br><span class="line">        ((TomcatServletWebServerFactory) factory).addConnectorCustomizers(<span class="keyword">new</span> TomcatConnectorCustomizer() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customize</span><span class="params">(Connector connector)</span> </span>&#123;</span><br><span class="line">                Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();</span><br><span class="line"></span><br><span class="line">                <span class="comment">//定制化keepalivetimeout,设置30秒内没有请求，则服务端自动断开keepalive连接</span></span><br><span class="line">                protocol.setKeepAliveTimeout(<span class="number">30000</span>);</span><br><span class="line">                <span class="comment">//当客户端发送超过一万个请求自动断开keepalive连接</span></span><br><span class="line">                protocol.setMaxKeepAliveRequests( );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，Tomcat只是中间件中的一种，其余中间件有各自的调优方法，不过我的这个项目用的是Tomcat所以着重对其描述。</p>
+]]></content>
+      <categories>
+        <category>面经</category>
+      </categories>
+  </entry>
+  <entry>
     <title>leetcode题解：预测赢家</title>
     <url>/2020/09/01/Code486/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="预测赢家"><a href="#预测赢家" class="headerlink" title="预测赢家"></a>预测赢家</h1><blockquote>
@@ -446,6 +466,13 @@
       </tags>
   </entry>
   <entry>
+    <title></title>
+    <url>/2020/09/13/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
     <title>leetcode题解：数组中数字出现的次数</title>
     <url>/2020/09/02/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E6%95%B0%E5%AD%97%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="数组中数字出现的次数"><a href="#数组中数字出现的次数" class="headerlink" title="数组中数字出现的次数"></a>数组中数字出现的次数</h1><p>（这不是今天的每日一题，实在是今天那道面向用例编程的题实在太恶心，个人感觉不如刷一道剑指Offer。）</p>
@@ -544,13 +571,6 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2020/09/13/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
     <title>leetcode题解：组合总和</title>
     <url>/2020/09/09/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="组合总和"><a href="#组合总和" class="headerlink" title="组合总和"></a>组合总和</h1><blockquote>
@@ -572,6 +592,38 @@
       <tags>
         <tag>回溯算法</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>笔试题汇总</title>
+    <url>/2020/09/26/%E7%AC%94%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="笔试题汇总"><a href="#笔试题汇总" class="headerlink" title="笔试题汇总"></a>笔试题汇总</h1><ol>
+<li><p>try、catch、finally和return 执行顺序</p>
+<ul>
+<li><p>如果在try中就有return，程序会先执行try中的语句，并且暂时保存需要return的信息，接着去执行finally语句，最后执行return操作。但这边值得注意的是，如果返回的是基本数据类型，那return的数据就是try保存的信息，但如果return的是引用类型，那么如果在finally语句中对引用类型进行修改，return的信息也会随之变化。</p>
+</li>
+<li><p>不难看出，finally中的语句总是会被执行，那么如果finally中和try中都有return语句呢？此时try中的return语句会失效，在执行完finally的return之后，就不会再执行try中的return。这种写法，编译是可以编译通过的，但是编译器会给予警告，所以不推荐在finally中写return，这会破坏程序的完整性，而且一旦finally里出现异常，会导致catch中的异常被覆盖。</p>
+</li>
+</ul>
+</li>
+<li><p>Java取整三种方法</p>
+<ul>
+<li>Math. Ceil() : 向上取整</li>
+<li>Math. floor() : 向下取整</li>
+<li>Math. round() : 四舍五入后取整</li>
+</ul>
+</li>
+<li><p>Java调试器</p>
+<p>java.exe是java虚拟机</p>
+<p>javadoc.exe用来制作java文档 (Java document)</p>
+<p>jdb.exe是java的调试器 (Java debugger)</p>
+<p>javaprof.exe是剖析工具   (Java profile)</p>
+<p>javac.exe编译java成二进制class文件 (Java <em>c</em>ompiler)</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>面经</category>
+      </categories>
   </entry>
   <entry>
     <title>阿里云环境配置</title>
@@ -657,6 +709,12 @@
 
 <p>4、让配置生效</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、Redis配置"><a href="#3、Redis配置" class="headerlink" title="3、Redis配置"></a>3、Redis配置</h2><p>1、去官网查找所需的Redis版本下载并解压（<a href="https://redis.io/download%EF%BC%89">https://redis.io/download）</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">下载：wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-6.0.1.tar.gz</span><br><span class="line">解压：tar -xzvf redis-5.0.4.tar.gz </span><br></pre></td></tr></table></figure>
+
+<p>2、使用make命令编译并执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编译：make</span><br><span class="line">执行：make install</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
