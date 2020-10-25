@@ -44,6 +44,61 @@
       </tags>
   </entry>
   <entry>
+    <title>Java集合框架（一）</title>
+    <url>/2020/10/25/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Java集合框架（一）"><a href="#Java集合框架（一）" class="headerlink" title="Java集合框架（一）"></a>Java集合框架（一）</h1><p><strong>引言</strong></p>
+<p>我们可以将集合可以看作是一种容器，用来存储对象信息。Java为了不同类型的集合定义了大量接口，而两大基本接口为：<code>Collection</code>和<code>Map</code>。对于<code>Collection</code>而言，存储的是元素集合，而<code>Map</code>存储的是键值对/值对映射。所有集合类都位于<code>java.util</code>包下，但支持多线程的集合类位于<code>java.util.concurrent</code>包下。</p>
+<p>我们需要注意的是，数组并不是集合，数组和集合有两个很大的区别：</p>
+<ol>
+<li>数组长度固定，一旦创建便没有办法再次改变容量，而集合可以动态的改变容量。</li>
+<li>数组元素既可以是基本类型的值，也可以是对象，而集合只能保存对象类型。</li>
+</ol>
+<h2 id="1、具体集合"><a href="#1、具体集合" class="headerlink" title="1、具体集合"></a>1、具体集合</h2><p><strong><code>java.util.Collection</code>下的接口和继承类关系简易结构图：</strong></p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1078540-20191115163627420-566269456.png" alt="img"></p>
+<p><strong><code>java.util.Map</code>下的接口和继承类关系简易结构图：</strong></p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1078540-20191115163647011-1193506491.png" alt="img"></p>
+<p>（我们可以通过Idea的快捷键清晰的梳理集合类之间的继承和实现关系：选中某个集合类后配合快捷键<code>Ctrl</code>+<code>H</code>便可以看见该集合类与其他类的继承和实现关系，再配合<code>Ctrl</code>+<code>Shift</code>+<code>Alt</code>+<code>N</code> 查找类效率更佳）。</p>
+<h2 id="2、Collection"><a href="#2、Collection" class="headerlink" title="2、Collection"></a>2、Collection</h2><p><strong>Collection常见方法：</strong></p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1362965-20190111153657049-1511371305.png" alt="img"></p>
+<h3 id="2-1-List"><a href="#2-1-List" class="headerlink" title="2.1 List"></a>2.1 List</h3><p>我们常用的<code>List</code>有<code>ArrayList</code>、<code>LinkedList</code>，而对于<code>Vector</code>和<code>Stack</code>并不推荐使用，因为</p>
+<ol>
+<li><p>首先，而<code>Vector</code>是JDK 1.0的产物，为了保证同步在很多方法都加上了<code>synchronized</code> 关键字，在单线程情况下效率不高。</p>
+</li>
+<li><p><code>Vector</code>底层依然是依靠数组实现，而不是链表，也就是说<code>Vector</code>依然需要对数组进行扩容。不过值得注意的是相比<code>ArrayList</code>每次扩容至原来的1.5倍，<code>Vector</code>直接扩容到原来的两倍。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Vector扩容机制</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + ((capacityIncrement &gt; <span class="number">0</span>) ?</span><br><span class="line">                                     capacityIncrement : oldCapacity);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ArrayLst扩容机制</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Stack</code>是继承自<code>Vector</code>，因此<code>Stack</code> 可以复用 <code>Vector</code> 大量方法，这使得 <code>Stack</code> 在设计上不严谨。</p>
+</li>
+</ol>
+<p>所以更多情况下，我们更推荐使用双端队列<code>Deque</code>接口来实现栈，<code>Deque</code>可以满足<code>Vector</code>需要的FIFO，同时，<code>Deque</code>既支持有容量限制的双端队列，也支持没有固定大小限制的双端队列，并且在性能上优于<code>Vector</code> 。</p>
+<p>而对于<code>ArrayList</code>和<code>LinkedList</code>，前者是底层是数组，而后者底层数据结构就是链表。这也就说明两者各有春秋：</p>
+<ol>
+<li>在查询效率上，<code>ArrayList</code>无论是通过下标查找还是对于排序好的数据集（二分查找）进行值查找效率都明显高于需要逐个遍历的<code>LinkedList</code>，即使对于无序数据集的值查找，<code>ArrayList</code>性能依旧优于<code>LinkedList</code>,虽然两者查询时间复杂度都为O(n)，但因为数组的连续内存，会有一部分或者全部数据一起进入到CPU缓存，而链表还需要在去内存中根据上下游标查找,，CPU缓存比内存块太多。</li>
+<li>但是，在插入和删除的效率上，<code>ArrayList</code>在添加元素时需要通过数组扩容来动态改变状态，在删除时又需要移动所有后续元素才能实现，而<code>LinkedList</code>只需要改变指针指向便可以很简单的实现容量改变，而不需要移动数据。</li>
+</ol>
+<h2 id="2-1-Queue"><a href="#2-1-Queue" class="headerlink" title="2.1 Queue"></a>2.1 Queue</h2><p>队列通常以 FIFO（先进先出）的方式排序各个元素。不过优先级队列<code>PriorityQueue</code>和 LIFO（后进先出） 队列（或堆栈）例外，前者根据提供的比较器或元素的自然顺序对元素进行排序，后者按 LIFO的方式对元素进行排序。</p>
+<h2 id="2-3-Set"><a href="#2-3-Set" class="headerlink" title="2.3 Set"></a>2.3 Set</h2><p><code>Set</code>是用来存储无序元素的集合，并且元素之间的值不能相同。Java提供了<code>HashSet</code>、<code>LinkedHashSet</code>、<code>TreeSet</code>三种常用的Set实现方式。</p>
+<ul>
+<li><p>对于<code>HashSet</code>而言，其实就是依赖<code>HashMap</code>来实现，将要放入<code>HashSet</code>的值作为<code>HashMap</code>的key，而值使用一个不可变的<code>PRESENT</code>对象。所以<code>HashSet</code>的查找效率达到了O(1)，但没办法有序遍历。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//HashSet部分源码</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dummy value to associate with an Object in the backing Map</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于<code>LinkedHashSet</code>而言，<code>LinkedHashSet</code>正好介于<code>HashSet</code>和<code>TreeSet</code>之间，它依然继承了<code>HashSet</code>，但它同时维护了一个双链表来记录插入的顺序，所以基本方法的复杂度为O(1)。但是因为相比于<code>HashSet</code>它还需要维护一个链表，所以性能会不如<code>HashSet</code>。</p>
+</li>
+<li><p>对于<code>TreeSet</code>而言，<code>TreeSet</code>是采用树结构实现(称为红黑树算法)，元素是按顺序进行排列，主要有<code>add()</code>、<code>remove()</code>以及<code>contains()</code>等方法，它们都是复杂度为<code>O(log (n))</code>的方法；它还提供了一些处理排序的set方法，如<code>first()</code>, <code>last()</code>, <code>headSet()</code>, <code>tailSet()</code>等。</p>
+</li>
+</ul>
+<h2 id="3、Map"><a href="#3、Map" class="headerlink" title="3、Map"></a>3、Map</h2><p><code>Map</code>存储的key-value键值对形式的对象，我们平时使用最广的必定是<code>HashMap</code>了，这个我们之后会着重讲，所以在这就不多赘述了。</p>
+<p><strong>Map常见方法</strong>：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1362965-20190111155052064-620367509.png" alt="img"></p>
+]]></content>
+      <categories>
+        <category>Java基础</category>
+      </categories>
+      <tags>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jsoup爬虫</title>
     <url>/2020/09/01/Jsoup%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Jsoup爬虫"><a href="#Jsoup爬虫" class="headerlink" title="Jsoup爬虫"></a>Jsoup爬虫</h1><p>[TOC]</p>
@@ -349,53 +404,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>leetcode题解：前K个高频元素</title>
-    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
-<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
-</blockquote>
-<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>桶排序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode题解：二叉树的层次遍历 II</title>
-    <url>/2020/09/06/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86-II/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的层次遍历-II"><a href="#二叉树的层次遍历-II" class="headerlink" title="二叉树的层次遍历 II"></a>二叉树的层次遍历 II</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/">107. 二叉树的层次遍历 II</a></p>
-<p>给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</p>
-<p>例如：<br>给定二叉树 [3,9,20,null,null,15,7],</p>
-<pre><code>    3
-   / \
-  9  20
-    /  \
-   15   7</code></pre>
-<p>返回其自底向上的层次遍历为：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  [15,7],</span><br><span class="line">  [9,20],</span><br><span class="line">  [3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>回学校的第一天，还好是简单难度，不必熬这个夜了。</p>
-<p>首先，看见层序遍历肯定会想到<strong>广度优先搜索</strong>，而自底向上的遍历就需要用到栈的先进后出，先把结果保存到栈再输出到List集合。但看到评论区有一个更好的思路，就是<strong>直接使用LinkedList作为List集合</strong>，作为链表我们可以直接将数组放到首部，达到自底向上保存的效果。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; levelOrderBottom(TreeNode root) &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用LinkedList省去一次逆序保存</span></span><br><span class="line">        LinkedList&lt;List&lt;Integer&gt;&gt; lists = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        queue.offer(root);</span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">            List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">int</span> len = queue.size();</span><br><span class="line">            <span class="comment">//遍历该层的所有元素，并保存下一层的元素到队列尾部</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">                TreeNode node = queue.poll();</span><br><span class="line">                list.add(node.val);</span><br><span class="line">                <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(node.left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(node.right);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            lists.addFirst(list);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> lists;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>广度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Typora快捷键</title>
     <url>/2020/09/01/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><ul>
@@ -440,6 +448,33 @@
       </tags>
   </entry>
   <entry>
+    <title>leetcode题解：二叉树的层次遍历 II</title>
+    <url>/2020/09/06/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86-II/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的层次遍历-II"><a href="#二叉树的层次遍历-II" class="headerlink" title="二叉树的层次遍历 II"></a>二叉树的层次遍历 II</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/">107. 二叉树的层次遍历 II</a></p>
+<p>给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</p>
+<p>例如：<br>给定二叉树 [3,9,20,null,null,15,7],</p>
+<pre><code>    3
+   / \
+  9  20
+    /  \
+   15   7</code></pre>
+<p>返回其自底向上的层次遍历为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  [15,7],</span><br><span class="line">  [9,20],</span><br><span class="line">  [3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>回学校的第一天，还好是简单难度，不必熬这个夜了。</p>
+<p>首先，看见层序遍历肯定会想到<strong>广度优先搜索</strong>，而自底向上的遍历就需要用到栈的先进后出，先把结果保存到栈再输出到List集合。但看到评论区有一个更好的思路，就是<strong>直接使用LinkedList作为List集合</strong>，作为链表我们可以直接将数组放到首部，达到自底向上保存的效果。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; levelOrderBottom(TreeNode root) &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用LinkedList省去一次逆序保存</span></span><br><span class="line">        LinkedList&lt;List&lt;Integer&gt;&gt; lists = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        queue.offer(root);</span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">            List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">int</span> len = queue.size();</span><br><span class="line">            <span class="comment">//遍历该层的所有元素，并保存下一层的元素到队列尾部</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">                TreeNode node = queue.poll();</span><br><span class="line">                list.add(node.val);</span><br><span class="line">                <span class="keyword">if</span> (node.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(node.left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (node.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(node.right);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            lists.addFirst(list);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> lists;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>广度优先搜索</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leetcode题解：二叉树的所有路径</title>
     <url>/2020/09/04/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的所有路径"><a href="#二叉树的所有路径" class="headerlink" title="二叉树的所有路径"></a>二叉树的所有路径</h1><blockquote>
@@ -466,11 +501,51 @@
       </tags>
   </entry>
   <entry>
+    <title>leetcode题解：前K个高频元素</title>
+    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
+<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
+</blockquote>
+<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>桶排序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title></title>
     <url>/2020/09/13/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 </blockquote>
 ]]></content>
+  </entry>
+  <entry>
+    <title>leetcode题解：组合</title>
+    <url>/2020/09/08/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/combinations/">77. 组合</a></p>
+<p>给定两个整数 <em>n</em> 和 <em>k</em>，返回 1 … <em>n</em> 中所有可能的 <em>k</em> 个数的组合。</p>
+</blockquote>
+<p>这种求组合的问题，很容易想到用回溯来求解，然后就是做好剪枝处理。首先，因为他只需要求组合，而不关心组合内部顺序，所以我们可以默认每个数组从小到大排列，不必每次都从开始查找。其次，当我们判断剩余可以遍历的数已经不足以满足我们凑巧k个数时，就没有继续遍历的必要了。</p>
+<p>递归结构：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1599488203-TzmCXb-image.png" alt="回溯方法"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        backTrace(list, n, k, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> lists;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">backTrace</span><span class="params">(List&lt;Integer&gt; list, <span class="keyword">int</span> n, <span class="keyword">int</span> k, <span class="keyword">int</span> ans)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n - ans + <span class="number">1</span> &lt; k) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">0</span>) &#123;</span><br><span class="line">            lists.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = ans; i &lt;= n; i++) &#123;</span><br><span class="line">            list.add(i);</span><br><span class="line">            backTrace(list, n, k - <span class="number">1</span>, i + <span class="number">1</span>);</span><br><span class="line">            list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>回溯算法</tag>
+      </tags>
   </entry>
   <entry>
     <title>leetcode题解：数组中数字出现的次数</title>
@@ -551,16 +626,19 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode题解：组合</title>
-    <url>/2020/09/08/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/combinations/">77. 组合</a></p>
-<p>给定两个整数 <em>n</em> 和 <em>k</em>，返回 1 … <em>n</em> 中所有可能的 <em>k</em> 个数的组合。</p>
+    <title>leetcode题解：组合总和</title>
+    <url>/2020/09/09/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="组合总和"><a href="#组合总和" class="headerlink" title="组合总和"></a>组合总和</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/combination-sum/">39. 组合总和</a></p>
+<p>给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
+<p>candidates 中的数字可以无限制重复被选取。</p>
+<p>说明：</p>
+<p>所有数字（包括 target）都是正整数。<br>解集不能包含重复的组合。 </p>
 </blockquote>
-<p>这种求组合的问题，很容易想到用回溯来求解，然后就是做好剪枝处理。首先，因为他只需要求组合，而不关心组合内部顺序，所以我们可以默认每个数组从小到大排列，不必每次都从开始查找。其次，当我们判断剩余可以遍历的数已经不足以满足我们凑巧k个数时，就没有继续遍历的必要了。</p>
-<p>递归结构：</p>
-<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1599488203-TzmCXb-image.png" alt="回溯方法"></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        backTrace(list, n, k, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> lists;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">backTrace</span><span class="params">(List&lt;Integer&gt; list, <span class="keyword">int</span> n, <span class="keyword">int</span> k, <span class="keyword">int</span> ans)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n - ans + <span class="number">1</span> &lt; k) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">0</span>) &#123;</span><br><span class="line">            lists.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = ans; i &lt;= n; i++) &#123;</span><br><span class="line">            list.add(i);</span><br><span class="line">            backTrace(list, n, k - <span class="number">1</span>, i + <span class="number">1</span>);</span><br><span class="line">            list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>今天的这题和昨天的基本一致，就连解法也没有过多差异。只不过这题的数字是可以重复的，所以我们传参时索引不必+1,然后在剪枝时，如果此时的总和已经大于target了，那就没有继续遍历的意义了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combinationSum(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        backTrace(lists, candidates, list, <span class="number">0</span>, <span class="number">0</span>, target);</span><br><span class="line">        <span class="keyword">return</span> lists;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">backTrace</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; lists, <span class="keyword">int</span>[] candidates, List&lt;Integer&gt; list, <span class="keyword">int</span> index, <span class="keyword">int</span> sum, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">            lists.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sum &gt; target) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = index; i &lt; candidates.length; i++) &#123;</span><br><span class="line">            list.add(candidates[i]);</span><br><span class="line">            sum += candidates[i];</span><br><span class="line">            backTrace(lists, candidates, list, i, sum, target);</span><br><span class="line">            list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">            sum -= candidates[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 
 ]]></content>
       <categories>
@@ -601,29 +679,6 @@
       <categories>
         <category>面经</category>
       </categories>
-  </entry>
-  <entry>
-    <title>leetcode题解：组合总和</title>
-    <url>/2020/09/09/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="组合总和"><a href="#组合总和" class="headerlink" title="组合总和"></a>组合总和</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/combination-sum/">39. 组合总和</a></p>
-<p>给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
-<p>candidates 中的数字可以无限制重复被选取。</p>
-<p>说明：</p>
-<p>所有数字（包括 target）都是正整数。<br>解集不能包含重复的组合。 </p>
-</blockquote>
-<p>今天的这题和昨天的基本一致，就连解法也没有过多差异。只不过这题的数字是可以重复的，所以我们传参时索引不必+1,然后在剪枝时，如果此时的总和已经大于target了，那就没有继续遍历的意义了。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combinationSum(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        backTrace(lists, candidates, list, <span class="number">0</span>, <span class="number">0</span>, target);</span><br><span class="line">        <span class="keyword">return</span> lists;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">backTrace</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; lists, <span class="keyword">int</span>[] candidates, List&lt;Integer&gt; list, <span class="keyword">int</span> index, <span class="keyword">int</span> sum, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">            lists.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sum &gt; target) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = index; i &lt; candidates.length; i++) &#123;</span><br><span class="line">            list.add(candidates[i]);</span><br><span class="line">            sum += candidates[i];</span><br><span class="line">            backTrace(lists, candidates, list, i, sum, target);</span><br><span class="line">            list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">            sum -= candidates[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>回溯算法</tag>
-      </tags>
   </entry>
   <entry>
     <title>类加载机制</title>
@@ -688,6 +743,102 @@
       <tags>
         <tag>类加载机制</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>阿里云环境配置</title>
+    <url>/2020/09/16/%E9%98%BF%E9%87%8C%E4%BA%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="阿里云环境配置"><a href="#阿里云环境配置" class="headerlink" title="阿里云环境配置"></a>阿里云环境配置</h1><blockquote>
+<p> 之前的学生免费试用的阿里云服务器过期了，只能再买一年重新配下环境，记录一下安装步骤，方便以后少走弯路。</p>
+</blockquote>
+<h2 id="1、MySQL"><a href="#1、MySQL" class="headerlink" title="1、MySQL"></a>1、MySQL</h2><ol>
+<li>删除原来的数据库：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# rpm -qa|grep mariadb  &#x2F;&#x2F; 查询出来已安装的mariadb</span><br><span class="line">[root@localhost ~]# rpm -e --nodeps 文件名  &#x2F;&#x2F; 卸载mariadb，文件名为上述命令查询出来的文件</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装MySQL官方的yum repository</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# wget -i -c http:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>下载rpm包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>安装MySQL服务</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果安装不成功，则先执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum module disable mysql</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="5">
+<li>mysql基本命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启动：systemctl start  mysqld.service</span><br><span class="line"></span><br><span class="line">重启：systemctl restart mysqld.service</span><br><span class="line"></span><br><span class="line">停止：systemctl stop mysqld.service</span><br><span class="line"></span><br><span class="line">查看状态：systemctl status mysqld.service</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置开机自启：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@woitumi-128 ~]# systemctl enable mysqld</span><br><span class="line"></span><br><span class="line">[root@woitumi-128 ~]# systemctl daemon-reload   刚刚配置的服务需要让systemctl能识别，就必须刷新配置</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>修改密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">获取mysql初始密码: grep &#39;temporary password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">进入mysql: mysql -u root -p</span><br><span class="line">MySQL版本5.7.6版本以前用户可以使用如下命令：</span><br><span class="line">mysql&gt; SET PASSWORD &#x3D; PASSWORD(&#39;123456&#39;); </span><br><span class="line">MySQL版本5.7.6版本开始的用户可以使用如下命令：</span><br><span class="line">mysql&gt; ALTER USER USER() IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>mysql可能禁止密码过于简单</p>
+<ul>
+<li><p>设置 validate_password_policy 的全局参数为 0</p>
+</li>
+<li><pre><code>set global validate_password_policy=0;
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 设置密码最低长度</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  set global validate_password_length&#x3D;6; </span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>​    7.退出数据库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql&gt; exit;</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li><p>连接本地navicat问题</p>
+<ol>
+<li><p>必须在阿里云服务器安全组中开放3306端口</p>
+</li>
+<li><p>开放数据库的远程访问权限</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">select host from user where user&#x3D;&#39;root&#39;;</span><br><span class="line">update user set host &#x3D; &#39;%&#39; where user &#x3D;&#39;root&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="2、Java环境"><a href="#2、Java环境" class="headerlink" title="2、Java环境"></a>2、Java环境</h2><p>1、使用xftp上传文件</p>
+<p>2、解压缩</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rpm -ivh jdk-8u221-linux-x64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>3、环境变量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;i进入编辑 esc :wq退出编辑</span><br><span class="line">JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_221-amd64</span><br><span class="line">CLASSPATH&#x3D;%JAVA_HOME%&#x2F;lib:%JAVA_HOME%&#x2F;jre&#x2F;lib</span><br><span class="line">PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$JAVA_HOME&#x2F;jre&#x2F;bin</span><br><span class="line">export PATH CLASSPATH JAVA_HOME</span><br></pre></td></tr></table></figure>
+
+<p>4、让配置生效</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、Redis配置"><a href="#3、Redis配置" class="headerlink" title="3、Redis配置"></a>3、Redis配置</h2><p>1、去官网查找所需的Redis版本下载并解压（<a href="https://redis.io/download%EF%BC%89">https://redis.io/download）</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">下载：wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-6.0.1.tar.gz</span><br><span class="line">解压：tar -xzvf redis-5.0.4.tar.gz </span><br></pre></td></tr></table></figure>
+
+<p>2、使用make命令编译并执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编译：make</span><br><span class="line">执行：make install</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
   </entry>
   <entry>
     <title>Java多线程梳理</title>
@@ -822,102 +973,6 @@
       <tags>
         <tag>高并发</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>阿里云环境配置</title>
-    <url>/2020/09/16/%E9%98%BF%E9%87%8C%E4%BA%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="阿里云环境配置"><a href="#阿里云环境配置" class="headerlink" title="阿里云环境配置"></a>阿里云环境配置</h1><blockquote>
-<p> 之前的学生免费试用的阿里云服务器过期了，只能再买一年重新配下环境，记录一下安装步骤，方便以后少走弯路。</p>
-</blockquote>
-<h2 id="1、MySQL"><a href="#1、MySQL" class="headerlink" title="1、MySQL"></a>1、MySQL</h2><ol>
-<li>删除原来的数据库：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# rpm -qa|grep mariadb  &#x2F;&#x2F; 查询出来已安装的mariadb</span><br><span class="line">[root@localhost ~]# rpm -e --nodeps 文件名  &#x2F;&#x2F; 卸载mariadb，文件名为上述命令查询出来的文件</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>安装MySQL官方的yum repository</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# wget -i -c http:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>下载rpm包</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>安装MySQL服务</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>如果安装不成功，则先执行：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum module disable mysql</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol start="5">
-<li>mysql基本命令</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启动：systemctl start  mysqld.service</span><br><span class="line"></span><br><span class="line">重启：systemctl restart mysqld.service</span><br><span class="line"></span><br><span class="line">停止：systemctl stop mysqld.service</span><br><span class="line"></span><br><span class="line">查看状态：systemctl status mysqld.service</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>配置开机自启：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@woitumi-128 ~]# systemctl enable mysqld</span><br><span class="line"></span><br><span class="line">[root@woitumi-128 ~]# systemctl daemon-reload   刚刚配置的服务需要让systemctl能识别，就必须刷新配置</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li>修改密码</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">获取mysql初始密码: grep &#39;temporary password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">进入mysql: mysql -u root -p</span><br><span class="line">MySQL版本5.7.6版本以前用户可以使用如下命令：</span><br><span class="line">mysql&gt; SET PASSWORD &#x3D; PASSWORD(&#39;123456&#39;); </span><br><span class="line">MySQL版本5.7.6版本开始的用户可以使用如下命令：</span><br><span class="line">mysql&gt; ALTER USER USER() IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>mysql可能禁止密码过于简单</p>
-<ul>
-<li><p>设置 validate_password_policy 的全局参数为 0</p>
-</li>
-<li><pre><code>set global validate_password_policy=0;
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 设置密码最低长度</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  set global validate_password_length&#x3D;6; </span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<p>​    7.退出数据库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql&gt; exit;</span><br></pre></td></tr></table></figure>
-
-<ol start="8">
-<li><p>连接本地navicat问题</p>
-<ol>
-<li><p>必须在阿里云服务器安全组中开放3306端口</p>
-</li>
-<li><p>开放数据库的远程访问权限</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">select host from user where user&#x3D;&#39;root&#39;;</span><br><span class="line">update user set host &#x3D; &#39;%&#39; where user &#x3D;&#39;root&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="2、Java环境"><a href="#2、Java环境" class="headerlink" title="2、Java环境"></a>2、Java环境</h2><p>1、使用xftp上传文件</p>
-<p>2、解压缩</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rpm -ivh jdk-8u221-linux-x64.rpm</span><br></pre></td></tr></table></figure>
-
-<p>3、环境变量</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;i进入编辑 esc :wq退出编辑</span><br><span class="line">JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_221-amd64</span><br><span class="line">CLASSPATH&#x3D;%JAVA_HOME%&#x2F;lib:%JAVA_HOME%&#x2F;jre&#x2F;lib</span><br><span class="line">PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$JAVA_HOME&#x2F;jre&#x2F;bin</span><br><span class="line">export PATH CLASSPATH JAVA_HOME</span><br></pre></td></tr></table></figure>
-
-<p>4、让配置生效</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
-
-<h2 id="3、Redis配置"><a href="#3、Redis配置" class="headerlink" title="3、Redis配置"></a>3、Redis配置</h2><p>1、去官网查找所需的Redis版本下载并解压（<a href="https://redis.io/download%EF%BC%89">https://redis.io/download）</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">下载：wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-6.0.1.tar.gz</span><br><span class="line">解压：tar -xzvf redis-5.0.4.tar.gz </span><br></pre></td></tr></table></figure>
-
-<p>2、使用make命令编译并执行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编译：make</span><br><span class="line">执行：make install</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
   </entry>
   <entry>
     <title>Java面向对象</title>
