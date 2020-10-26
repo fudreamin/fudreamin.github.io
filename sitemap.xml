@@ -284,14 +284,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/</loc>
+    <loc>http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/</loc>
     <lastmod>2020-10-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/</loc>
+    <loc>http://yoursite.com/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/</loc>
     <lastmod>2020-10-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -426,14 +426,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    <loc>http://yoursite.com/categories/Linux/</loc>
     <lastmod>2020-10-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://yoursite.com/categories/Linux/</loc>
+    <loc>http://yoursite.com/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
     <lastmod>2020-10-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

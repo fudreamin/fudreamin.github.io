@@ -478,6 +478,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2020/08/26/hello-world/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Typora快捷键</title>
     <url>/2020/09/01/Typora%E5%BF%AB%E6%8D%B7%E9%94%AE/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Typora快捷键"><a href="#Typora快捷键" class="headerlink" title="Typora快捷键"></a>Typora快捷键</h1><ul>
@@ -522,24 +540,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/08/26/hello-world/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>leetcode题解：二叉树的层次遍历 II</title>
     <url>/2020/09/06/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86-II/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的层次遍历-II"><a href="#二叉树的层次遍历-II" class="headerlink" title="二叉树的层次遍历 II"></a>二叉树的层次遍历 II</h1><blockquote>
@@ -567,26 +567,6 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode题解：前K个高频元素</title>
-    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
-<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
-</blockquote>
-<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>桶排序</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leetcode题解：二叉树的所有路径</title>
     <url>/2020/09/04/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的所有路径"><a href="#二叉树的所有路径" class="headerlink" title="二叉树的所有路径"></a>二叉树的所有路径</h1><blockquote>
@@ -611,6 +591,33 @@
         <tag>广度优先搜索</tag>
         <tag>深度优先搜索</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>leetcode题解：前K个高频元素</title>
+    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
+<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
+</blockquote>
+<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>桶排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2020/09/13/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
+</blockquote>
+]]></content>
   </entry>
   <entry>
     <title>leetcode题解：数组中数字出现的次数</title>
@@ -709,13 +716,6 @@
       <tags>
         <tag>回溯算法</tag>
       </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2020/09/13/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
-</blockquote>
-]]></content>
   </entry>
   <entry>
     <title>leetcode题解：组合总和</title>
@@ -835,6 +835,102 @@
       <tags>
         <tag>类加载机制</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>阿里云环境配置</title>
+    <url>/2020/09/16/%E9%98%BF%E9%87%8C%E4%BA%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="阿里云环境配置"><a href="#阿里云环境配置" class="headerlink" title="阿里云环境配置"></a>阿里云环境配置</h1><blockquote>
+<p> 之前的学生免费试用的阿里云服务器过期了，只能再买一年重新配下环境，记录一下安装步骤，方便以后少走弯路。</p>
+</blockquote>
+<h2 id="1、MySQL"><a href="#1、MySQL" class="headerlink" title="1、MySQL"></a>1、MySQL</h2><ol>
+<li>删除原来的数据库：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# rpm -qa|grep mariadb  &#x2F;&#x2F; 查询出来已安装的mariadb</span><br><span class="line">[root@localhost ~]# rpm -e --nodeps 文件名  &#x2F;&#x2F; 卸载mariadb，文件名为上述命令查询出来的文件</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装MySQL官方的yum repository</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# wget -i -c http:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>下载rpm包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>安装MySQL服务</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果安装不成功，则先执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum module disable mysql</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="5">
+<li>mysql基本命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启动：systemctl start  mysqld.service</span><br><span class="line"></span><br><span class="line">重启：systemctl restart mysqld.service</span><br><span class="line"></span><br><span class="line">停止：systemctl stop mysqld.service</span><br><span class="line"></span><br><span class="line">查看状态：systemctl status mysqld.service</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置开机自启：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@woitumi-128 ~]# systemctl enable mysqld</span><br><span class="line"></span><br><span class="line">[root@woitumi-128 ~]# systemctl daemon-reload   刚刚配置的服务需要让systemctl能识别，就必须刷新配置</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>修改密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">获取mysql初始密码: grep &#39;temporary password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">进入mysql: mysql -u root -p</span><br><span class="line">MySQL版本5.7.6版本以前用户可以使用如下命令：</span><br><span class="line">mysql&gt; SET PASSWORD &#x3D; PASSWORD(&#39;123456&#39;); </span><br><span class="line">MySQL版本5.7.6版本开始的用户可以使用如下命令：</span><br><span class="line">mysql&gt; ALTER USER USER() IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>mysql可能禁止密码过于简单</p>
+<ul>
+<li><p>设置 validate_password_policy 的全局参数为 0</p>
+</li>
+<li><pre><code>set global validate_password_policy=0;
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 设置密码最低长度</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  set global validate_password_length&#x3D;6; </span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>​    7.退出数据库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql&gt; exit;</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li><p>连接本地navicat问题</p>
+<ol>
+<li><p>必须在阿里云服务器安全组中开放3306端口</p>
+</li>
+<li><p>开放数据库的远程访问权限</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">select host from user where user&#x3D;&#39;root&#39;;</span><br><span class="line">update user set host &#x3D; &#39;%&#39; where user &#x3D;&#39;root&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="2、Java环境"><a href="#2、Java环境" class="headerlink" title="2、Java环境"></a>2、Java环境</h2><p>1、使用xftp上传文件</p>
+<p>2、解压缩</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rpm -ivh jdk-8u221-linux-x64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>3、环境变量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;i进入编辑 esc :wq退出编辑</span><br><span class="line">JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_221-amd64</span><br><span class="line">CLASSPATH&#x3D;%JAVA_HOME%&#x2F;lib:%JAVA_HOME%&#x2F;jre&#x2F;lib</span><br><span class="line">PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$JAVA_HOME&#x2F;jre&#x2F;bin</span><br><span class="line">export PATH CLASSPATH JAVA_HOME</span><br></pre></td></tr></table></figure>
+
+<p>4、让配置生效</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、Redis配置"><a href="#3、Redis配置" class="headerlink" title="3、Redis配置"></a>3、Redis配置</h2><p>1、去官网查找所需的Redis版本下载并解压（<a href="https://redis.io/download%EF%BC%89">https://redis.io/download）</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">下载：wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-6.0.1.tar.gz</span><br><span class="line">解压：tar -xzvf redis-5.0.4.tar.gz </span><br></pre></td></tr></table></figure>
+
+<p>2、使用make命令编译并执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编译：make</span><br><span class="line">执行：make install</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
   </entry>
   <entry>
     <title>Java多线程梳理</title>
@@ -1116,102 +1212,6 @@
         <tag>多态</tag>
         <tag>反射</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>阿里云环境配置</title>
-    <url>/2020/09/16/%E9%98%BF%E9%87%8C%E4%BA%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="阿里云环境配置"><a href="#阿里云环境配置" class="headerlink" title="阿里云环境配置"></a>阿里云环境配置</h1><blockquote>
-<p> 之前的学生免费试用的阿里云服务器过期了，只能再买一年重新配下环境，记录一下安装步骤，方便以后少走弯路。</p>
-</blockquote>
-<h2 id="1、MySQL"><a href="#1、MySQL" class="headerlink" title="1、MySQL"></a>1、MySQL</h2><ol>
-<li>删除原来的数据库：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# rpm -qa|grep mariadb  &#x2F;&#x2F; 查询出来已安装的mariadb</span><br><span class="line">[root@localhost ~]# rpm -e --nodeps 文件名  &#x2F;&#x2F; 卸载mariadb，文件名为上述命令查询出来的文件</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>安装MySQL官方的yum repository</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# wget -i -c http:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>下载rpm包</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>安装MySQL服务</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>如果安装不成功，则先执行：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum module disable mysql</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol start="5">
-<li>mysql基本命令</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启动：systemctl start  mysqld.service</span><br><span class="line"></span><br><span class="line">重启：systemctl restart mysqld.service</span><br><span class="line"></span><br><span class="line">停止：systemctl stop mysqld.service</span><br><span class="line"></span><br><span class="line">查看状态：systemctl status mysqld.service</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>配置开机自启：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@woitumi-128 ~]# systemctl enable mysqld</span><br><span class="line"></span><br><span class="line">[root@woitumi-128 ~]# systemctl daemon-reload   刚刚配置的服务需要让systemctl能识别，就必须刷新配置</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li>修改密码</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">获取mysql初始密码: grep &#39;temporary password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log</span><br><span class="line">进入mysql: mysql -u root -p</span><br><span class="line">MySQL版本5.7.6版本以前用户可以使用如下命令：</span><br><span class="line">mysql&gt; SET PASSWORD &#x3D; PASSWORD(&#39;123456&#39;); </span><br><span class="line">MySQL版本5.7.6版本开始的用户可以使用如下命令：</span><br><span class="line">mysql&gt; ALTER USER USER() IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>mysql可能禁止密码过于简单</p>
-<ul>
-<li><p>设置 validate_password_policy 的全局参数为 0</p>
-</li>
-<li><pre><code>set global validate_password_policy=0;
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 设置密码最低长度</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  set global validate_password_length&#x3D;6; </span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<p>​    7.退出数据库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql&gt; exit;</span><br></pre></td></tr></table></figure>
-
-<ol start="8">
-<li><p>连接本地navicat问题</p>
-<ol>
-<li><p>必须在阿里云服务器安全组中开放3306端口</p>
-</li>
-<li><p>开放数据库的远程访问权限</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">select host from user where user&#x3D;&#39;root&#39;;</span><br><span class="line">update user set host &#x3D; &#39;%&#39; where user &#x3D;&#39;root&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="2、Java环境"><a href="#2、Java环境" class="headerlink" title="2、Java环境"></a>2、Java环境</h2><p>1、使用xftp上传文件</p>
-<p>2、解压缩</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rpm -ivh jdk-8u221-linux-x64.rpm</span><br></pre></td></tr></table></figure>
-
-<p>3、环境变量</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;i进入编辑 esc :wq退出编辑</span><br><span class="line">JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_221-amd64</span><br><span class="line">CLASSPATH&#x3D;%JAVA_HOME%&#x2F;lib:%JAVA_HOME%&#x2F;jre&#x2F;lib</span><br><span class="line">PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$JAVA_HOME&#x2F;jre&#x2F;bin</span><br><span class="line">export PATH CLASSPATH JAVA_HOME</span><br></pre></td></tr></table></figure>
-
-<p>4、让配置生效</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
-
-<h2 id="3、Redis配置"><a href="#3、Redis配置" class="headerlink" title="3、Redis配置"></a>3、Redis配置</h2><p>1、去官网查找所需的Redis版本下载并解压（<a href="https://redis.io/download%EF%BC%89">https://redis.io/download）</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">下载：wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-6.0.1.tar.gz</span><br><span class="line">解压：tar -xzvf redis-5.0.4.tar.gz </span><br></pre></td></tr></table></figure>
-
-<p>2、使用make命令编译并执行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编译：make</span><br><span class="line">执行：make install</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
   </entry>
   <entry>
     <title>Spring笔记</title>
