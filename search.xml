@@ -99,6 +99,98 @@
       </tags>
   </entry>
   <entry>
+    <title>Java集合框架（二）——ArrayList</title>
+    <url>/2020/10/26/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94ArrayList/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Java集合框架（二）——ArrayList"><a href="#Java集合框架（二）——ArrayList" class="headerlink" title="Java集合框架（二）——ArrayList"></a>Java集合框架（二）——ArrayList</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p><code>ArrayList</code>继承的是<code>AbstractList</code>类，并且实现了<code>List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</code>四个接口。</p>
+<ul>
+<li><p>其实，当看见这个时第一反应可能就是，既然已经继承了<code>AbstractList</code>类，那为什么还需要去实现<code>List</code>接口，更何况<code>AbstractList</code>内部已经实现了<code>List</code>接口。不仅如此，去看<code>HashSet</code>、<code>HashMap</code>之类的源码都会出现已经继承了抽象类，但仍然去实现接口的情况。StackOverflow上很早就有这样的问题，多数人认为的是如果不实现接口，对程序也不会产生变化，实现接口的目的更多是为了起一个标志性的作用，当你点开<code>ArrayList</code>，你就知道他是一个<code>List</code>，而不需要去看文档或者一直追溯源码。</p>
+</li>
+<li><p>如果说前者只是一种猜测，那<code>RandomAccess</code>接口的实现就是官方的一种规定了，当我们点开<code>RandomAccess</code>时，会发现他就是一个单纯的接口，没有任何其他代码。官方文档 <a href="http://docs.oracle.com/javase/7/docs/api/java/util/RandomAccess.html">RandomAccess javadoc</a>对其的解释为：</p>
+<blockquote>
+<p>Marker interface used by <code>List</code> implementations to indicate that they support fast (generally constant time) random access. The primary purpose of this interface is to allow generic algorithms to alter their behavior to provide good performance when applied to either random or sequential access lists.</p>
+</blockquote>
+<p>也就是说<code>RandomAccess</code> 是一个标志接口，表明实现这个这个接口的 List 集合是支持快速随机访问的。</p>
+<p>那么快速随机访问是什么意思？</p>
+<ul>
+<li><p>ArrayList底层的数据结构是Object[]存储，数组在内存分配里，是一段连续的内存空间，譬如分配的内存地址是002，003，004，005四个地址，那么我们如果要随机访问角标为3的数据，只需要访问002+3=005的数据就行了，这就是快速随机访问。</p>
+</li>
+<li><p>而 LinkedList是链表结构，在内存里是不连续的，相邻的数据之间用指针指向即可。如001&lt;-&gt;003&lt;-&gt;004&lt;-&gt;005.那么此时，我们要访问角标为3的数据，就只能从第一个数据开始依次迭代，找到第4个数据，这就是顺序访问。</p>
+</li>
+</ul>
+</li>
+<li><p>而<code>java.io.Serializable</code>与<code>RandomAccess</code>作用一致，同样是标志接口，不过<code>java.io.Serializable</code>表示的是该类支持序列化。关于序列化可以看：<a href="https://blog.csdn.net/so_geili/article/details/78931742">关于序列化的博文</a></p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+
+<p>说完了继承和实现，我们可以在看下<code>ArrayList</code>的几个默认参数:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">8683452581122892189L</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Default initial capacity.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Shared empty array instance used for empty instances.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Shared empty array instance used for default sized empty instances. We</span></span><br><span class="line"><span class="comment"> * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when</span></span><br><span class="line"><span class="comment"> * first element is added.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The array buffer into which the elements of the ArrayList are stored.</span></span><br><span class="line"><span class="comment"> * The capacity of the ArrayList is the length of this array buffer. Any</span></span><br><span class="line"><span class="comment"> * empty ArrayList with elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA</span></span><br><span class="line"><span class="comment"> * will be expanded to DEFAULT_CAPACITY when the first element is added.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">transient</span> Object[] elementData; <span class="comment">// non-private to simplify nested class access</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The size of the ArrayList (the number of elements it contains).</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@serial</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>serialVersionUID</td>
+<td>序列化版本号，实现序列化功能</td>
+</tr>
+<tr>
+<td>DEFAULT_CAPACITY</td>
+<td>默认数组长度，默认为10</td>
+</tr>
+<tr>
+<td>EMPTY_ELEMENTDATA</td>
+<td>默认的空数组</td>
+</tr>
+<tr>
+<td>DEFAULTCAPACITY_EMPTY_ELEMENTDATA</td>
+<td>默认的空数组（与前者在不同构造方法使用，这个在无参构造函数中使用）</td>
+</tr>
+<tr>
+<td>elementData</td>
+<td>真正用于存放数据的数组</td>
+</tr>
+<tr>
+<td>size</td>
+<td>ArrayList实际大小</td>
+</tr>
+<tr>
+<td>modCount</td>
+<td>继承自AbstractList，记录修改次数</td>
+</tr>
+</tbody></table>
+<h2 id="2、方法解析"><a href="#2、方法解析" class="headerlink" title="2、方法解析"></a>2、方法解析</h2><h3 id="2-1-构造函数"><a href="#2-1-构造函数" class="headerlink" title="2.1 构造函数"></a>2.1 构造函数</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最常用的构造函数，不带参数，将实际数组置为默认初始空数组。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (initialCapacity == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Illegal Capacity: &quot;</span>+</span><br><span class="line">                                           initialCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>手动设置初始容量，如果初始容量大于0，新建一个传入数字大小的Object数组，如果传入数字为0，将实际数组</p>
+<p>置为初始空数组，否则直接抛出异常。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Constructs a list containing the elements of the specified</span></span><br><span class="line"><span class="comment"> * collection, in the order they are returned by the collection&#x27;s</span></span><br><span class="line"><span class="comment"> * iterator.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> c the collection whose elements are to be placed into this list</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> NullPointerException if the specified collection is null</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    elementData = c.toArray();</span><br><span class="line">    <span class="keyword">if</span> ((size = elementData.length) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)</span></span><br><span class="line">        <span class="keyword">if</span> (elementData.getClass() != Object[].class)</span><br><span class="line">            elementData = Arrays.copyOf(elementData, size, Object[].class);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// replace with empty array.</span></span><br><span class="line">        <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果传过来的参数是一个集合，就直接创建一个和指定集合内容一样的<code>ArrayList</code>,并且将size设置为集合长度。</p>
+<h3 id="2-2-添加元素"><a href="#2-2-添加元素" class="headerlink" title="2.2 添加元素"></a>2.2 添加元素</h3><p>添加一个元素：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Appends the specified element to the end of this list.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e element to be appended to this list</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; (as specified by &#123;<span class="doctag">@link</span> Collection#add&#125;)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//确认是否需要扩容</span></span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    <span class="comment">//在size的下一位加入元素,并让size自增一位</span></span><br><span class="line">    elementData[size++] = e;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//参数为需要的最小容量大小</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//修改次数+1</span></span><br><span class="line">    modCount++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果容量不足以放下，则扩容</span></span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="comment">//扩容</span></span><br><span class="line">        grow(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">calculateCapacity</span><span class="params">(Object[] elementData, <span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//如果容器为空</span></span><br><span class="line">    <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">        <span class="keyword">return</span> Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minCapacity;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Increases the capacity to ensure that it can hold at least the</span></span><br><span class="line"><span class="comment"> * number of elements specified by the minimum capacity argument.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> minCapacity the desired minimum capacity</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="comment">//扩容至原先的1.5倍</span></span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在指定位置添加元素：</p>
+<p>（看源码我们可以注意到，我们无法在实际容量size后的位置添加元素，即使容器容量足够的情况下。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//检查待插入位置是否合法</span></span><br><span class="line">    rangeCheckForAdd(index);</span><br><span class="line"></span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    <span class="comment">//将待插入位置后所有数字后移</span></span><br><span class="line">    System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>,</span><br><span class="line">                     size - index);</span><br><span class="line">    <span class="comment">//添加元素</span></span><br><span class="line">    elementData[index] = element;</span><br><span class="line">    size++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A version of rangeCheck used by add and addAll.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">rangeCheckForAdd</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &gt; size || index &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(outOfBoundsMsg(index));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加集合：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    Object[] a = c.toArray();</span><br><span class="line">    <span class="keyword">int</span> numNew = a.length;</span><br><span class="line">    ensureCapacityInternal(size + numNew);  <span class="comment">// Increments modCount</span></span><br><span class="line">    System.arraycopy(a, <span class="number">0</span>, elementData, size, numNew);</span><br><span class="line">    size += numNew;</span><br><span class="line">    <span class="keyword">return</span> numNew != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Java基础</category>
+      </categories>
+      <tags>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jsoup爬虫</title>
     <url>/2020/09/01/Jsoup%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Jsoup爬虫"><a href="#Jsoup爬虫" class="headerlink" title="Jsoup爬虫"></a>Jsoup爬虫</h1><p>[TOC]</p>
@@ -237,98 +329,6 @@
       </categories>
       <tags>
         <tag>爬虫</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java集合框架（二）——ArrayList</title>
-    <url>/2020/10/26/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94ArrayList/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Java集合框架（二）——ArrayList"><a href="#Java集合框架（二）——ArrayList" class="headerlink" title="Java集合框架（二）——ArrayList"></a>Java集合框架（二）——ArrayList</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p><code>ArrayList</code>继承的是<code>AbstractList</code>类，并且实现了<code>List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</code>四个接口。</p>
-<ul>
-<li><p>其实，当看见这个时第一反应可能就是，既然已经继承了<code>AbstractList</code>类，那为什么还需要去实现<code>List</code>接口，更何况<code>AbstractList</code>内部已经实现了<code>List</code>接口。不仅如此，去看<code>HashSet</code>、<code>HashMap</code>之类的源码都会出现已经继承了抽象类，但仍然去实现接口的情况。StackOverflow上很早就有这样的问题，多数人认为的是如果不实现接口，对程序也不会产生变化，实现接口的目的更多是为了起一个标志性的作用，当你点开<code>ArrayList</code>，你就知道他是一个<code>List</code>，而不需要去看文档或者一直追溯源码。</p>
-</li>
-<li><p>如果说前者只是一种猜测，那<code>RandomAccess</code>接口的实现就是官方的一种规定了，当我们点开<code>RandomAccess</code>时，会发现他就是一个单纯的接口，没有任何其他代码。官方文档 <a href="http://docs.oracle.com/javase/7/docs/api/java/util/RandomAccess.html">RandomAccess javadoc</a>对其的解释为：</p>
-<blockquote>
-<p>Marker interface used by <code>List</code> implementations to indicate that they support fast (generally constant time) random access. The primary purpose of this interface is to allow generic algorithms to alter their behavior to provide good performance when applied to either random or sequential access lists.</p>
-</blockquote>
-<p>也就是说<code>RandomAccess</code> 是一个标志接口，表明实现这个这个接口的 List 集合是支持快速随机访问的。</p>
-<p>那么快速随机访问是什么意思？</p>
-<ul>
-<li><p>ArrayList底层的数据结构是Object[]存储，数组在内存分配里，是一段连续的内存空间，譬如分配的内存地址是002，003，004，005四个地址，那么我们如果要随机访问角标为3的数据，只需要访问002+3=005的数据就行了，这就是快速随机访问。</p>
-</li>
-<li><p>而 LinkedList是链表结构，在内存里是不连续的，相邻的数据之间用指针指向即可。如001&lt;-&gt;003&lt;-&gt;004&lt;-&gt;005.那么此时，我们要访问角标为3的数据，就只能从第一个数据开始依次迭代，找到第4个数据，这就是顺序访问。</p>
-</li>
-</ul>
-</li>
-<li><p>而<code>java.io.Serializable</code>与<code>RandomAccess</code>作用一致，同样是标志接口，不过<code>java.io.Serializable</code>表示的是该类支持序列化。关于序列化可以看：<a href="https://blog.csdn.net/so_geili/article/details/78931742">关于序列化的博文</a></p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
-
-<p>说完了继承和实现，我们可以在看下<code>ArrayList</code>的几个默认参数:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">8683452581122892189L</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Default initial capacity.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Shared empty array instance used for empty instances.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Shared empty array instance used for default sized empty instances. We</span></span><br><span class="line"><span class="comment"> * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when</span></span><br><span class="line"><span class="comment"> * first element is added.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The array buffer into which the elements of the ArrayList are stored.</span></span><br><span class="line"><span class="comment"> * The capacity of the ArrayList is the length of this array buffer. Any</span></span><br><span class="line"><span class="comment"> * empty ArrayList with elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA</span></span><br><span class="line"><span class="comment"> * will be expanded to DEFAULT_CAPACITY when the first element is added.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">transient</span> Object[] elementData; <span class="comment">// non-private to simplify nested class access</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The size of the ArrayList (the number of elements it contains).</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@serial</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size;</span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>serialVersionUID</td>
-<td>序列化版本号，实现序列化功能</td>
-</tr>
-<tr>
-<td>DEFAULT_CAPACITY</td>
-<td>默认数组长度，默认为10</td>
-</tr>
-<tr>
-<td>EMPTY_ELEMENTDATA</td>
-<td>默认的空数组</td>
-</tr>
-<tr>
-<td>DEFAULTCAPACITY_EMPTY_ELEMENTDATA</td>
-<td>默认的空数组（与前者在不同构造方法使用，这个在无参构造函数中使用）</td>
-</tr>
-<tr>
-<td>elementData</td>
-<td>真正用于存放数据的数组</td>
-</tr>
-<tr>
-<td>size</td>
-<td>ArrayList实际大小</td>
-</tr>
-<tr>
-<td>modCount</td>
-<td>继承自AbstractList，记录修改次数</td>
-</tr>
-</tbody></table>
-<h2 id="2、方法解析"><a href="#2、方法解析" class="headerlink" title="2、方法解析"></a>2、方法解析</h2><h3 id="2-1-构造函数"><a href="#2-1-构造函数" class="headerlink" title="2.1 构造函数"></a>2.1 构造函数</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>最常用的构造函数，不带参数，将实际数组置为默认初始空数组。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (initialCapacity == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Illegal Capacity: &quot;</span>+</span><br><span class="line">                                           initialCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>手动设置初始容量，如果初始容量大于0，新建一个传入数字大小的Object数组，如果传入数字为0，将实际数组</p>
-<p>置为初始空数组，否则直接抛出异常。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Constructs a list containing the elements of the specified</span></span><br><span class="line"><span class="comment"> * collection, in the order they are returned by the collection&#x27;s</span></span><br><span class="line"><span class="comment"> * iterator.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> c the collection whose elements are to be placed into this list</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> NullPointerException if the specified collection is null</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    elementData = c.toArray();</span><br><span class="line">    <span class="keyword">if</span> ((size = elementData.length) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)</span></span><br><span class="line">        <span class="keyword">if</span> (elementData.getClass() != Object[].class)</span><br><span class="line">            elementData = Arrays.copyOf(elementData, size, Object[].class);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// replace with empty array.</span></span><br><span class="line">        <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果传过来的参数是一个集合，就直接创建一个和指定集合内容一样的<code>ArrayList</code>,并且将size设置为集合长度。</p>
-<h3 id="2-2-添加元素"><a href="#2-2-添加元素" class="headerlink" title="2.2 添加元素"></a>2.2 添加元素</h3><p>添加一个元素：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Appends the specified element to the end of this list.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e element to be appended to this list</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; (as specified by &#123;<span class="doctag">@link</span> Collection#add&#125;)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//确认是否需要扩容</span></span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    <span class="comment">//在size的下一位加入元素,并让size自增一位</span></span><br><span class="line">    elementData[size++] = e;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//参数为需要的最小容量大小</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//修改次数+1</span></span><br><span class="line">    modCount++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果容量不足以放下，则扩容</span></span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="comment">//扩容</span></span><br><span class="line">        grow(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">calculateCapacity</span><span class="params">(Object[] elementData, <span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//如果容器为空</span></span><br><span class="line">    <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">        <span class="keyword">return</span> Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minCapacity;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Increases the capacity to ensure that it can hold at least the</span></span><br><span class="line"><span class="comment"> * number of elements specified by the minimum capacity argument.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> minCapacity the desired minimum capacity</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="comment">//扩容至原先的1.5倍</span></span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在指定位置添加元素：</p>
-<p>（看源码我们可以注意到，我们无法在实际容量size后的位置添加元素，即使容器容量足够的情况下。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//检查待插入位置是否合法</span></span><br><span class="line">    rangeCheckForAdd(index);</span><br><span class="line"></span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    <span class="comment">//将待插入位置后所有数字后移</span></span><br><span class="line">    System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>,</span><br><span class="line">                     size - index);</span><br><span class="line">    <span class="comment">//添加元素</span></span><br><span class="line">    elementData[index] = element;</span><br><span class="line">    size++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A version of rangeCheck used by add and addAll.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">rangeCheckForAdd</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &gt; size || index &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(outOfBoundsMsg(index));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>添加集合：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    Object[] a = c.toArray();</span><br><span class="line">    <span class="keyword">int</span> numNew = a.length;</span><br><span class="line">    ensureCapacityInternal(size + numNew);  <span class="comment">// Increments modCount</span></span><br><span class="line">    System.arraycopy(a, <span class="number">0</span>, elementData, size, numNew);</span><br><span class="line">    size += numNew;</span><br><span class="line">    <span class="keyword">return</span> numNew != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Java基础</category>
-      </categories>
-      <tags>
-        <tag>集合</tag>
       </tags>
   </entry>
   <entry>
@@ -522,24 +522,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/08/26/hello-world/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>leetcode题解：二叉树的层次遍历 II</title>
     <url>/2020/09/06/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86-II/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="二叉树的层次遍历-II"><a href="#二叉树的层次遍历-II" class="headerlink" title="二叉树的层次遍历 II"></a>二叉树的层次遍历 II</h1><blockquote>
@@ -565,6 +547,44 @@
       <tags>
         <tag>广度优先搜索</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>leetcode题解：前K个高频元素</title>
+    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
+<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
+<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
+</blockquote>
+<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>leetcode题解</category>
+      </categories>
+      <tags>
+        <tag>桶排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/08/26/hello-world/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>leetcode题解：二叉树的所有路径</title>
@@ -598,26 +618,6 @@
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 </blockquote>
 ]]></content>
-  </entry>
-  <entry>
-    <title>leetcode题解：前K个高频元素</title>
-    <url>/2020/09/07/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="前K个高频元素"><a href="#前K个高频元素" class="headerlink" title="前K个高频元素"></a>前K个高频元素</h1><blockquote>
-<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">347. 前 K 个高频元素</a></p>
-<p>给定一个非空的整数数组，返回其中出现频率前<strong>K</strong>高的元素。</p>
-</blockquote>
-<p>对于TopK问题，堆排序是最明显的解法，但这题其实有时间度复杂度更低的解法，通过桶排序来解题：我们首先用HashMap保存每个数字出现次数，再遍历整个map将数字放入代表数字出现次数的桶中，倒序遍历桶就可以得到TopK的高频元素。最后的时间复杂度维持在O(n)。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] topKFrequent(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">//用HashMap保存每个数字出现次数</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(nums[i])) &#123;</span><br><span class="line">                map.put(nums[i], map.get(nums[i]) + <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.put(nums[i], <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用桶来保存这些数字</span></span><br><span class="line">        List&lt;Integer&gt;[] bucket = <span class="keyword">new</span> ArrayList[nums.length  + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : map.keySet()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bucket[map.get(num)] == <span class="keyword">null</span>) &#123;</span><br><span class="line">                bucket[map.get(num)] = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            bucket[map.get(num)].add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//反向遍历桶，提出倒数k个元素</span></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = bucket.length - <span class="number">1</span>; i &gt;= <span class="number">0</span> &amp;&amp; ans &lt; k; i--) &#123;</span><br><span class="line">            <span class="comment">//这里只需要在外层循环判断ans是否小于K,因为题目已经说明数组中前 k 个高频元素的集合是唯一的</span></span><br><span class="line">            <span class="keyword">if</span> (bucket[i] != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; bucket[i].size(); j++) &#123;</span><br><span class="line">                    result[ans++] = bucket[i].get(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>leetcode题解</category>
-      </categories>
-      <tags>
-        <tag>桶排序</tag>
-      </tags>
   </entry>
   <entry>
     <title>leetcode题解：数组中数字出现的次数</title>
@@ -773,6 +773,70 @@
       </categories>
   </entry>
   <entry>
+    <title>类加载机制</title>
+    <url>/2020/09/01/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p><img src= "/img/loading.gif" data-lazy-src="https://upload-images.jianshu.io/upload_images/1900685-5b9f351d3bc5b208.png" alt="img"></p>
+<ul>
+<li>如图，一个类从被加载到虚拟机开始，到卸载出内存为止，他的生命周期经过了<strong>加载、验证、准备、解析、初始化、使用、卸载</strong>七个阶段。而类加载的全过程包括了加载、验证、准备、解析、初始化五个阶段。</li>
+<li><strong>类加载器的启动</strong>：类加载器并不需要等到某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被使用时就预先加载它，如果在预先加载的过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误（LinkageError错误）如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</li>
+<li><strong>开始顺序：</strong>在类加载中，加载、验证、准备、初始化四个步骤的开始顺序是固定的，而解析阶段则不一定，他在某些时候可以在初始化之后再开始解析。</li>
+</ul>
+<h2 id="2、加载"><a href="#2、加载" class="headerlink" title="2、加载"></a>2、加载</h2><p><strong>过程</strong></p>
+<ol>
+<li>通过一个类的全限定名来获取其定义的二进制字节流</li>
+<li>将这个字节流所代表的的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区中这个类的访问入口。(注意这里的Class对象和.class文件是完全不同的概念)</li>
+</ol>
+<p><strong>待加载的.class文件来源：</strong></p>
+<p>（1）本地磁盘</p>
+<p>（2）网上加载.class文件（Applet）</p>
+<p>（3）从数据库中</p>
+<p>（4）压缩文件中（ZAR，jar等）</p>
+<p>（5）从其他文件生成的（JSP应用）</p>
+<p>​          ……</p>
+<h2 id="3、验证"><a href="#3、验证" class="headerlink" title="3、验证"></a>3、验证</h2><p>因为.class文件可以由多种渠道得到，我们并不能保证它是由编译得到的，所以我们必须保证文件的准确性，拒绝不满足语义或者恶意的字节码流。</p>
+<p>验证的主要作用就是确保被加载的类的正确性。也是连接阶段的第一步。说白了也就是我们加载好的.class文件不能对我们的虚拟机有危害，所以先检测验证一下。他主要是完成四个阶段的验证：</p>
+<ol>
+<li><strong>文件格式的验证</strong>：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里面主要对魔数、主版本号、常量池等等的校验。<ol>
+<li>魔数：每个Class文件的头四个字节，唯一作用在于确定这个文件是否为一个可以被虚拟机接受的Class文件，十六进制表示为0xCAFEBABE。</li>
+<li>版本号：第五六字节为次版本号，七八字节为主版本号，标志能执行该CLASS文件的JDK版本，不过从JDK1.2之后到目前次版本号都未使用，固定为0。</li>
+<li>常量池：主要存放两大常量，即字面量和符号引用。字面量就是比如说int a = 1; 这个1就是字面量。又比如String a = “abc”,这个abc就是字面量。 在java中，一个java类将会编译成一个class文件。在编译时，java类并不知道引用类的实际内存地址，因此只能使用符号引用来代替。比如org.simple.People类要引用org.simple.Tool类，在编译时People类并不知道Tool类的实际内存地址，因此只能使用符号org.simple.Tool(假设)来表示Tool类的地址。而在类装载器装载People类时，此时可以通过虚拟机获取Tool类 的实际内存地址，因此便可以既将符号org.simple.Tool替换为Tool类的实际内存地址，及直接引用地址。</li>
+</ol>
+</li>
+<li><strong>元数据验证</strong>：主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
+<li><strong>字节码验证</strong>：这是整个验证过程最复杂的阶段，主要是通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。在元数据验证阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的行为。</li>
+<li><strong>符号引用验证</strong>：它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
+</ol>
+<p>对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
+<h2 id="4、准备"><a href="#4、准备" class="headerlink" title="4、准备"></a>4、准备</h2><p><strong>准备阶段主要为类变量分配内存并设置初始值</strong>。这些内存都在方法区分配。在这个阶段我们只需要注意两点就好了，也就是类变量和初始值两个关键词：</p>
+<p>（1）类变量（static）会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中，</p>
+<p>（2）这里的初始值指的是数据类型默认值，而不是代码中被显示赋予的值。比如</p>
+<p>public static int value = 1; //在这里准备阶段过后的value值为0，而不是1。赋值为1的动作在初始化阶段。</p>
+<p>当然还有其他的默认值。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://pics2.baidu.com/feed/962bd40735fae6cdf616ed21e7a1f42043a70fe3.png?token=531148998856e5d92d0b437d9f9131b2&s=1AAA7423131A4DC8585DB1CB0300C0B1" alt="img"></p>
+<p>注意，在上面value是被static所修饰的准备阶段之后是0，但是如果同时被final和static修饰准备阶段之后就是1了。我们可以理解为static final在编译器就将结果放入调用它的类的常量池中了。</p>
+<h2 id="5、解析"><a href="#5、解析" class="headerlink" title="5、解析"></a>5、解析</h2><p>解析阶段主要是虚拟机将常量池中的符号引用转化为直接引用的过程。什么是符号应用和直接引用呢？</p>
+<p><strong>符号引用</strong>：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好，就好比在班级中，老师可以用张三来代表你，也可以用你的学号来代表你，但无论任何方式这些都只是一个代号（符号），这个代号指向你（符号引用）</p>
+<p><strong>直接引用</strong>：直接引用是可以指向目标的指针、相对偏移量或者是一个能直接或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
+<h2 id="6、初始化"><a href="#6、初始化" class="headerlink" title="6、初始化"></a>6、初始化</h2><p>这是类加载机制的最后一步，在这个阶段，java程序代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值。在初始化阶端，程序员可以根据自己的需求来赋值了。一句话描述这个阶段就是执行类构造器&lt; clinit &gt;()方法的过程。</p>
+<p>在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
+<p>①声明类变量是指定初始值</p>
+<p>②使用静态代码块为类变量指定初始值</p>
+<p>JVM初始化步骤</p>
+<p>1、假如这个类还没有被加载和连接，则程序先加载并连接该类</p>
+<p>2、假如该类的直接父类还没有被初始化，则先初始化其直接父类</p>
+<p>3、假如类中有初始化语句，则系统依次执行这些初始化语句</p>
+<p>类初始化时机：只有当对类的主动使用的时候才会导致类的初始化，类的主动使用包括以下六种：</p>
+<p>创建类的实例，也就是new的方式访问某个类或接口的静态变量，或者对该静态变量赋值调用类的静态方法反射（如 Class.forName(“com.shengsiyuan.Test”)）初始化某个类的子类，则其父类也会被初始化Java虚拟机启动时被标明为启动类的类（ JavaTest），直接使用 java.exe命令来运行某个主类好了，到目前为止就是类加载机制的整个过程，但是还有一个重要的概念，那就是类加载器。在加载阶段其实我们提到过类加载器，说是在后面详细说，在这就好好地介绍一下类加载器。</p>
+]]></content>
+      <categories>
+        <category>JVM虚拟机</category>
+      </categories>
+      <tags>
+        <tag>类加载机制</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>阿里云环境配置</title>
     <url>/2020/09/16/%E9%98%BF%E9%87%8C%E4%BA%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="阿里云环境配置"><a href="#阿里云环境配置" class="headerlink" title="阿里云环境配置"></a>阿里云环境配置</h1><blockquote>
@@ -867,70 +931,6 @@
       <categories>
         <category>Linux</category>
       </categories>
-  </entry>
-  <entry>
-    <title>类加载机制</title>
-    <url>/2020/09/01/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p><img src= "/img/loading.gif" data-lazy-src="https://upload-images.jianshu.io/upload_images/1900685-5b9f351d3bc5b208.png" alt="img"></p>
-<ul>
-<li>如图，一个类从被加载到虚拟机开始，到卸载出内存为止，他的生命周期经过了<strong>加载、验证、准备、解析、初始化、使用、卸载</strong>七个阶段。而类加载的全过程包括了加载、验证、准备、解析、初始化五个阶段。</li>
-<li><strong>类加载器的启动</strong>：类加载器并不需要等到某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被使用时就预先加载它，如果在预先加载的过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误（LinkageError错误）如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</li>
-<li><strong>开始顺序：</strong>在类加载中，加载、验证、准备、初始化四个步骤的开始顺序是固定的，而解析阶段则不一定，他在某些时候可以在初始化之后再开始解析。</li>
-</ul>
-<h2 id="2、加载"><a href="#2、加载" class="headerlink" title="2、加载"></a>2、加载</h2><p><strong>过程</strong></p>
-<ol>
-<li>通过一个类的全限定名来获取其定义的二进制字节流</li>
-<li>将这个字节流所代表的的静态存储结构转化为方法区的运行时数据结构</li>
-<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区中这个类的访问入口。(注意这里的Class对象和.class文件是完全不同的概念)</li>
-</ol>
-<p><strong>待加载的.class文件来源：</strong></p>
-<p>（1）本地磁盘</p>
-<p>（2）网上加载.class文件（Applet）</p>
-<p>（3）从数据库中</p>
-<p>（4）压缩文件中（ZAR，jar等）</p>
-<p>（5）从其他文件生成的（JSP应用）</p>
-<p>​          ……</p>
-<h2 id="3、验证"><a href="#3、验证" class="headerlink" title="3、验证"></a>3、验证</h2><p>因为.class文件可以由多种渠道得到，我们并不能保证它是由编译得到的，所以我们必须保证文件的准确性，拒绝不满足语义或者恶意的字节码流。</p>
-<p>验证的主要作用就是确保被加载的类的正确性。也是连接阶段的第一步。说白了也就是我们加载好的.class文件不能对我们的虚拟机有危害，所以先检测验证一下。他主要是完成四个阶段的验证：</p>
-<ol>
-<li><strong>文件格式的验证</strong>：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里面主要对魔数、主版本号、常量池等等的校验。<ol>
-<li>魔数：每个Class文件的头四个字节，唯一作用在于确定这个文件是否为一个可以被虚拟机接受的Class文件，十六进制表示为0xCAFEBABE。</li>
-<li>版本号：第五六字节为次版本号，七八字节为主版本号，标志能执行该CLASS文件的JDK版本，不过从JDK1.2之后到目前次版本号都未使用，固定为0。</li>
-<li>常量池：主要存放两大常量，即字面量和符号引用。字面量就是比如说int a = 1; 这个1就是字面量。又比如String a = “abc”,这个abc就是字面量。 在java中，一个java类将会编译成一个class文件。在编译时，java类并不知道引用类的实际内存地址，因此只能使用符号引用来代替。比如org.simple.People类要引用org.simple.Tool类，在编译时People类并不知道Tool类的实际内存地址，因此只能使用符号org.simple.Tool(假设)来表示Tool类的地址。而在类装载器装载People类时，此时可以通过虚拟机获取Tool类 的实际内存地址，因此便可以既将符号org.simple.Tool替换为Tool类的实际内存地址，及直接引用地址。</li>
-</ol>
-</li>
-<li><strong>元数据验证</strong>：主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
-<li><strong>字节码验证</strong>：这是整个验证过程最复杂的阶段，主要是通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。在元数据验证阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的行为。</li>
-<li><strong>符号引用验证</strong>：它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
-</ol>
-<p>对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
-<h2 id="4、准备"><a href="#4、准备" class="headerlink" title="4、准备"></a>4、准备</h2><p><strong>准备阶段主要为类变量分配内存并设置初始值</strong>。这些内存都在方法区分配。在这个阶段我们只需要注意两点就好了，也就是类变量和初始值两个关键词：</p>
-<p>（1）类变量（static）会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中，</p>
-<p>（2）这里的初始值指的是数据类型默认值，而不是代码中被显示赋予的值。比如</p>
-<p>public static int value = 1; //在这里准备阶段过后的value值为0，而不是1。赋值为1的动作在初始化阶段。</p>
-<p>当然还有其他的默认值。</p>
-<p><img src= "/img/loading.gif" data-lazy-src="https://pics2.baidu.com/feed/962bd40735fae6cdf616ed21e7a1f42043a70fe3.png?token=531148998856e5d92d0b437d9f9131b2&s=1AAA7423131A4DC8585DB1CB0300C0B1" alt="img"></p>
-<p>注意，在上面value是被static所修饰的准备阶段之后是0，但是如果同时被final和static修饰准备阶段之后就是1了。我们可以理解为static final在编译器就将结果放入调用它的类的常量池中了。</p>
-<h2 id="5、解析"><a href="#5、解析" class="headerlink" title="5、解析"></a>5、解析</h2><p>解析阶段主要是虚拟机将常量池中的符号引用转化为直接引用的过程。什么是符号应用和直接引用呢？</p>
-<p><strong>符号引用</strong>：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好，就好比在班级中，老师可以用张三来代表你，也可以用你的学号来代表你，但无论任何方式这些都只是一个代号（符号），这个代号指向你（符号引用）</p>
-<p><strong>直接引用</strong>：直接引用是可以指向目标的指针、相对偏移量或者是一个能直接或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
-<h2 id="6、初始化"><a href="#6、初始化" class="headerlink" title="6、初始化"></a>6、初始化</h2><p>这是类加载机制的最后一步，在这个阶段，java程序代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值。在初始化阶端，程序员可以根据自己的需求来赋值了。一句话描述这个阶段就是执行类构造器&lt; clinit &gt;()方法的过程。</p>
-<p>在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
-<p>①声明类变量是指定初始值</p>
-<p>②使用静态代码块为类变量指定初始值</p>
-<p>JVM初始化步骤</p>
-<p>1、假如这个类还没有被加载和连接，则程序先加载并连接该类</p>
-<p>2、假如该类的直接父类还没有被初始化，则先初始化其直接父类</p>
-<p>3、假如类中有初始化语句，则系统依次执行这些初始化语句</p>
-<p>类初始化时机：只有当对类的主动使用的时候才会导致类的初始化，类的主动使用包括以下六种：</p>
-<p>创建类的实例，也就是new的方式访问某个类或接口的静态变量，或者对该静态变量赋值调用类的静态方法反射（如 Class.forName(“com.shengsiyuan.Test”)）初始化某个类的子类，则其父类也会被初始化Java虚拟机启动时被标明为启动类的类（ JavaTest），直接使用 java.exe命令来运行某个主类好了，到目前为止就是类加载机制的整个过程，但是还有一个重要的概念，那就是类加载器。在加载阶段其实我们提到过类加载器，说是在后面详细说，在这就好好地介绍一下类加载器。</p>
-]]></content>
-      <categories>
-        <category>JVM虚拟机</category>
-      </categories>
-      <tags>
-        <tag>类加载机制</tag>
-      </tags>
   </entry>
   <entry>
     <title>Java多线程梳理</title>
