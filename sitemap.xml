@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/10/29/Object%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/</loc>
+    
+    <lastmod>2020-10-29</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/10/26/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94ArrayList/</loc>
     
     <lastmod>2020-10-26</lastmod>
@@ -40,13 +47,6 @@
     <loc>http://yoursite.com/2020/09/16/%E9%98%BF%E9%87%8C%E4%BA%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</loc>
     
     <lastmod>2020-09-18</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/09/13/leetcode%E9%A2%98%E8%A7%A3%EF%BC%9A%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</loc>
-    
-    <lastmod>2020-09-13</lastmod>
     
   </url>
   
@@ -277,14 +277,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/</loc>
+    <loc>http://yoursite.com/tags/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/</loc>
     <lastmod>2020-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/</loc>
+    <loc>http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/</loc>
     <lastmod>2020-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
