@@ -44,61 +44,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java集合框架（一）</title>
-    <url>/2020/10/25/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Java集合框架（一）"><a href="#Java集合框架（一）" class="headerlink" title="Java集合框架（一）"></a>Java集合框架（一）</h1><p><strong>引言</strong></p>
-<p>我们可以将集合可以看作是一种容器，用来存储对象信息。Java为了不同类型的集合定义了大量接口，而两大基本接口为：<code>Collection</code>和<code>Map</code>。对于<code>Collection</code>而言，存储的是元素集合，而<code>Map</code>存储的是键值对/值对映射。所有集合类都位于<code>java.util</code>包下，但支持多线程的集合类位于<code>java.util.concurrent</code>包下。</p>
-<p>我们需要注意的是，数组并不是集合，数组和集合有两个很大的区别：</p>
-<ol>
-<li>数组长度固定，一旦创建便没有办法再次改变容量，而集合可以动态的改变容量。</li>
-<li>数组元素既可以是基本类型的值，也可以是对象，而集合只能保存对象类型。</li>
-</ol>
-<h2 id="1、具体集合"><a href="#1、具体集合" class="headerlink" title="1、具体集合"></a>1、具体集合</h2><p><strong><code>java.util.Collection</code>下的接口和继承类关系简易结构图：</strong></p>
-<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1078540-20191115163627420-566269456.png" alt="img"></p>
-<p><strong><code>java.util.Map</code>下的接口和继承类关系简易结构图：</strong></p>
-<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1078540-20191115163647011-1193506491.png" alt="img"></p>
-<p>（我们可以通过Idea的快捷键清晰的梳理集合类之间的继承和实现关系：选中某个集合类后配合快捷键<code>Ctrl</code>+<code>H</code>便可以看见该集合类与其他类的继承和实现关系，再配合<code>Ctrl</code>+<code>Shift</code>+<code>Alt</code>+<code>N</code> 查找类效率更佳）。</p>
-<h2 id="2、Collection"><a href="#2、Collection" class="headerlink" title="2、Collection"></a>2、Collection</h2><p><strong>Collection常见方法：</strong></p>
-<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1362965-20190111153657049-1511371305.png" alt="img"></p>
-<h3 id="2-1-List"><a href="#2-1-List" class="headerlink" title="2.1 List"></a>2.1 List</h3><p>我们常用的<code>List</code>有<code>ArrayList</code>、<code>LinkedList</code>，而对于<code>Vector</code>和<code>Stack</code>并不推荐使用，因为</p>
-<ol>
-<li><p>首先，而<code>Vector</code>是JDK 1.0的产物，为了保证同步在很多方法都加上了<code>synchronized</code> 关键字，在单线程情况下效率不高。</p>
-</li>
-<li><p><code>Vector</code>底层依然是依靠数组实现，而不是链表，也就是说<code>Vector</code>依然需要对数组进行扩容。不过值得注意的是相比<code>ArrayList</code>每次扩容至原来的1.5倍，<code>Vector</code>直接扩容到原来的两倍。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Vector扩容机制</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + ((capacityIncrement &gt; <span class="number">0</span>) ?</span><br><span class="line">                                     capacityIncrement : oldCapacity);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ArrayLst扩容机制</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>Stack</code>是继承自<code>Vector</code>，因此<code>Stack</code> 可以复用 <code>Vector</code> 大量方法，这使得 <code>Stack</code> 在设计上不严谨。</p>
-</li>
-</ol>
-<p>所以更多情况下，我们更推荐使用双端队列<code>Deque</code>接口来实现栈，<code>Deque</code>可以满足<code>Vector</code>需要的FIFO，同时，<code>Deque</code>既支持有容量限制的双端队列，也支持没有固定大小限制的双端队列，并且在性能上优于<code>Vector</code> 。</p>
-<p>而对于<code>ArrayList</code>和<code>LinkedList</code>，前者是底层是数组，而后者底层数据结构就是链表。这也就说明两者各有春秋：</p>
-<ol>
-<li>在查询效率上，<code>ArrayList</code>无论是通过下标查找还是对于排序好的数据集（二分查找）进行值查找效率都明显高于需要逐个遍历的<code>LinkedList</code>，即使对于无序数据集的值查找，<code>ArrayList</code>性能依旧优于<code>LinkedList</code>,虽然两者查询时间复杂度都为O(n)，但因为数组的连续内存，会有一部分或者全部数据一起进入到CPU缓存，而链表还需要在去内存中根据上下游标查找,，CPU缓存比内存块太多。</li>
-<li>但是，在插入和删除的效率上，<code>ArrayList</code>在添加元素时需要通过数组扩容来动态改变状态，在删除时又需要移动所有后续元素才能实现，而<code>LinkedList</code>只需要改变指针指向便可以很简单的实现容量改变，而不需要移动数据。</li>
-</ol>
-<h3 id="2-2-Queue"><a href="#2-2-Queue" class="headerlink" title="2.2 Queue"></a>2.2 Queue</h3><p>队列通常以 FIFO（先进先出）的方式排序各个元素。不过优先级队列<code>PriorityQueue</code>和 LIFO（后进先出） 队列（或堆栈）例外，前者根据提供的比较器或元素的自然顺序对元素进行排序，后者按 LIFO的方式对元素进行排序。</p>
-<h3 id="2-3-Set"><a href="#2-3-Set" class="headerlink" title="2.3 Set"></a>2.3 Set</h3><p><code>Set</code>是用来存储无序元素的集合，并且元素之间的值不能相同。Java提供了<code>HashSet</code>、<code>LinkedHashSet</code>、<code>TreeSet</code>三种常用的Set实现方式。</p>
-<ul>
-<li><p>对于<code>HashSet</code>而言，其实就是依赖<code>HashMap</code>来实现，将要放入<code>HashSet</code>的值作为<code>HashMap</code>的key，而值使用一个不可变的<code>PRESENT</code>对象。所以<code>HashSet</code>的查找效率达到了O(1)，但没办法有序遍历。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//HashSet部分源码</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dummy value to associate with an Object in the backing Map</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>对于<code>LinkedHashSet</code>而言，<code>LinkedHashSet</code>正好介于<code>HashSet</code>和<code>TreeSet</code>之间，它依然继承了<code>HashSet</code>，但它同时维护了一个双链表来记录插入的顺序，所以基本方法的复杂度为O(1)。但是因为相比于<code>HashSet</code>它还需要维护一个链表，所以性能会不如<code>HashSet</code>。</p>
-</li>
-<li><p>对于<code>TreeSet</code>而言，<code>TreeSet</code>是采用树结构实现(称为红黑树算法)，元素是按顺序进行排列，主要有<code>add()</code>、<code>remove()</code>以及<code>contains()</code>等方法，它们都是复杂度为<code>O(log (n))</code>的方法；它还提供了一些处理排序的set方法，如<code>first()</code>, <code>last()</code>, <code>headSet()</code>, <code>tailSet()</code>等。</p>
-</li>
-</ul>
-<h2 id="3、Map"><a href="#3、Map" class="headerlink" title="3、Map"></a>3、Map</h2><p><code>Map</code>存储的key-value键值对形式的对象，我们平时使用最广的必定是<code>HashMap</code>了，这个我们之后会着重讲，所以在这就不多赘述了。</p>
-<p><strong>Map常见方法</strong>：</p>
-<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1362965-20190111155052064-620367509.png" alt="img"></p>
-]]></content>
-      <categories>
-        <category>Java基础</category>
-      </categories>
-      <tags>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java集合框架（二）——ArrayList</title>
     <url>/2020/10/26/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94ArrayList/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Java集合框架（二）——ArrayList"><a href="#Java集合框架（二）——ArrayList" class="headerlink" title="Java集合框架（二）——ArrayList"></a>Java集合框架（二）——ArrayList</h1><h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p><code>ArrayList</code>继承的是<code>AbstractList</code>类，并且实现了<code>List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</code>四个接口。</p>
@@ -182,6 +127,61 @@
 <p>添加集合：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    Object[] a = c.toArray();</span><br><span class="line">    <span class="keyword">int</span> numNew = a.length;</span><br><span class="line">    ensureCapacityInternal(size + numNew);  <span class="comment">// Increments modCount</span></span><br><span class="line">    System.arraycopy(a, <span class="number">0</span>, elementData, size, numNew);</span><br><span class="line">    size += numNew;</span><br><span class="line">    <span class="keyword">return</span> numNew != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+]]></content>
+      <categories>
+        <category>Java基础</category>
+      </categories>
+      <tags>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java集合框架（一）</title>
+    <url>/2020/10/25/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Java集合框架（一）"><a href="#Java集合框架（一）" class="headerlink" title="Java集合框架（一）"></a>Java集合框架（一）</h1><p><strong>引言</strong></p>
+<p>我们可以将集合可以看作是一种容器，用来存储对象信息。Java为了不同类型的集合定义了大量接口，而两大基本接口为：<code>Collection</code>和<code>Map</code>。对于<code>Collection</code>而言，存储的是元素集合，而<code>Map</code>存储的是键值对/值对映射。所有集合类都位于<code>java.util</code>包下，但支持多线程的集合类位于<code>java.util.concurrent</code>包下。</p>
+<p>我们需要注意的是，数组并不是集合，数组和集合有两个很大的区别：</p>
+<ol>
+<li>数组长度固定，一旦创建便没有办法再次改变容量，而集合可以动态的改变容量。</li>
+<li>数组元素既可以是基本类型的值，也可以是对象，而集合只能保存对象类型。</li>
+</ol>
+<h2 id="1、具体集合"><a href="#1、具体集合" class="headerlink" title="1、具体集合"></a>1、具体集合</h2><p><strong><code>java.util.Collection</code>下的接口和继承类关系简易结构图：</strong></p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1078540-20191115163627420-566269456.png" alt="img"></p>
+<p><strong><code>java.util.Map</code>下的接口和继承类关系简易结构图：</strong></p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1078540-20191115163647011-1193506491.png" alt="img"></p>
+<p>（我们可以通过Idea的快捷键清晰的梳理集合类之间的继承和实现关系：选中某个集合类后配合快捷键<code>Ctrl</code>+<code>H</code>便可以看见该集合类与其他类的继承和实现关系，再配合<code>Ctrl</code>+<code>Shift</code>+<code>Alt</code>+<code>N</code> 查找类效率更佳）。</p>
+<h2 id="2、Collection"><a href="#2、Collection" class="headerlink" title="2、Collection"></a>2、Collection</h2><p><strong>Collection常见方法：</strong></p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1362965-20190111153657049-1511371305.png" alt="img"></p>
+<h3 id="2-1-List"><a href="#2-1-List" class="headerlink" title="2.1 List"></a>2.1 List</h3><p>我们常用的<code>List</code>有<code>ArrayList</code>、<code>LinkedList</code>，而对于<code>Vector</code>和<code>Stack</code>并不推荐使用，因为</p>
+<ol>
+<li><p>首先，而<code>Vector</code>是JDK 1.0的产物，为了保证同步在很多方法都加上了<code>synchronized</code> 关键字，在单线程情况下效率不高。</p>
+</li>
+<li><p><code>Vector</code>底层依然是依靠数组实现，而不是链表，也就是说<code>Vector</code>依然需要对数组进行扩容。不过值得注意的是相比<code>ArrayList</code>每次扩容至原来的1.5倍，<code>Vector</code>直接扩容到原来的两倍。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Vector扩容机制</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + ((capacityIncrement &gt; <span class="number">0</span>) ?</span><br><span class="line">                                     capacityIncrement : oldCapacity);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ArrayLst扩容机制</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Stack</code>是继承自<code>Vector</code>，因此<code>Stack</code> 可以复用 <code>Vector</code> 大量方法，这使得 <code>Stack</code> 在设计上不严谨。</p>
+</li>
+</ol>
+<p>所以更多情况下，我们更推荐使用双端队列<code>Deque</code>接口来实现栈，<code>Deque</code>可以满足<code>Vector</code>需要的FIFO，同时，<code>Deque</code>既支持有容量限制的双端队列，也支持没有固定大小限制的双端队列，并且在性能上优于<code>Vector</code> 。</p>
+<p>而对于<code>ArrayList</code>和<code>LinkedList</code>，前者是底层是数组，而后者底层数据结构就是链表。这也就说明两者各有春秋：</p>
+<ol>
+<li>在查询效率上，<code>ArrayList</code>无论是通过下标查找还是对于排序好的数据集（二分查找）进行值查找效率都明显高于需要逐个遍历的<code>LinkedList</code>，即使对于无序数据集的值查找，<code>ArrayList</code>性能依旧优于<code>LinkedList</code>,虽然两者查询时间复杂度都为O(n)，但因为数组的连续内存，会有一部分或者全部数据一起进入到CPU缓存，而链表还需要在去内存中根据上下游标查找,，CPU缓存比内存块太多。</li>
+<li>但是，在插入和删除的效率上，<code>ArrayList</code>在添加元素时需要通过数组扩容来动态改变状态，在删除时又需要移动所有后续元素才能实现，而<code>LinkedList</code>只需要改变指针指向便可以很简单的实现容量改变，而不需要移动数据。</li>
+</ol>
+<h3 id="2-2-Queue"><a href="#2-2-Queue" class="headerlink" title="2.2 Queue"></a>2.2 Queue</h3><p>队列通常以 FIFO（先进先出）的方式排序各个元素。不过优先级队列<code>PriorityQueue</code>和 LIFO（后进先出） 队列（或堆栈）例外，前者根据提供的比较器或元素的自然顺序对元素进行排序，后者按 LIFO的方式对元素进行排序。</p>
+<h3 id="2-3-Set"><a href="#2-3-Set" class="headerlink" title="2.3 Set"></a>2.3 Set</h3><p><code>Set</code>是用来存储无序元素的集合，并且元素之间的值不能相同。Java提供了<code>HashSet</code>、<code>LinkedHashSet</code>、<code>TreeSet</code>三种常用的Set实现方式。</p>
+<ul>
+<li><p>对于<code>HashSet</code>而言，其实就是依赖<code>HashMap</code>来实现，将要放入<code>HashSet</code>的值作为<code>HashMap</code>的key，而值使用一个不可变的<code>PRESENT</code>对象。所以<code>HashSet</code>的查找效率达到了O(1)，但没办法有序遍历。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//HashSet部分源码</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dummy value to associate with an Object in the backing Map</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于<code>LinkedHashSet</code>而言，<code>LinkedHashSet</code>正好介于<code>HashSet</code>和<code>TreeSet</code>之间，它依然继承了<code>HashSet</code>，但它同时维护了一个双链表来记录插入的顺序，所以基本方法的复杂度为O(1)。但是因为相比于<code>HashSet</code>它还需要维护一个链表，所以性能会不如<code>HashSet</code>。</p>
+</li>
+<li><p>对于<code>TreeSet</code>而言，<code>TreeSet</code>是采用树结构实现(称为红黑树算法)，元素是按顺序进行排列，主要有<code>add()</code>、<code>remove()</code>以及<code>contains()</code>等方法，它们都是复杂度为<code>O(log (n))</code>的方法；它还提供了一些处理排序的set方法，如<code>first()</code>, <code>last()</code>, <code>headSet()</code>, <code>tailSet()</code>等。</p>
+</li>
+</ul>
+<h2 id="3、Map"><a href="#3、Map" class="headerlink" title="3、Map"></a>3、Map</h2><p><code>Map</code>存储的key-value键值对形式的对象，我们平时使用最广的必定是<code>HashMap</code>了，这个我们之后会着重讲，所以在这就不多赘述了。</p>
+<p><strong>Map常见方法</strong>：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="http://img.reainyday.top/1362965-20190111155052064-620367509.png" alt="img"></p>
 ]]></content>
       <categories>
         <category>Java基础</category>
